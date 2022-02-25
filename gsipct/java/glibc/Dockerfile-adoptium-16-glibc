@@ -1,0 +1,24 @@
+# ----------------------------------
+# Pterodactyl Core Dockerfile
+# Environment: Adoptium-16
+# Minimum Panel Version: 0.6.0
+# ----------------------------------
+FROM eclipse-temurin:16-focal
+
+LABEL org.opencontainers.image.authors="noreplay@noreply.org"
+LABEL org.opencontainers.image.vendor="KKP"
+
+RUN apt update && \
+    apt install -y --no-install-recommends bash curl wget tzdata ca-certificates && \
+    rm -rf /var/lib/{apt,dpkg,cache,log}/ && \
+    adduser -D -h /home/container container
+
+USER container
+ENV  USER container
+ENV  HOME /home/container
+
+WORKDIR /home/container
+
+COPY ./entrypoint.sh /entrypoint.sh
+
+CMD ["/bin/bash", "/entrypoint.sh"]

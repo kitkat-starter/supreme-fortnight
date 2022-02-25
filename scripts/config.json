@@ -1,0 +1,48 @@
+{
+  "paths": [
+    {
+      "path": "emdm",
+      "registry": "ghcr.io/kitkat-starter/suck",
+      "mirror": "ccr.ccs.tencentyun.com/karasu/stck",
+      "schedule": [
+        {
+          "cron": "30 5 * * 5"
+        }
+      ],
+      "extraScanFiles": ["php-fpm/scripts/*"]
+    },
+    {
+      "path": "gsipct/java",
+      "registry": "ghcr.io/kitkat-starter/gsipct-java",
+      "mirror": "ccr.ccs.tencentyun.com/cpdd/jva",
+      "schedule": [
+        {
+          "cron": "30 9 * * 2"
+        }
+      ],
+      "extraScanFiles": []
+    },
+    {
+      "path": "gsipct/other",
+      "registry": "ghcr.io/kitkat-starter/gsipct-other",
+      "mirror": "ccr.ccs.tencentyun.com/cpdd/oth",
+      "schedule": [
+        {
+          "cron": "45 10 * * 2"
+        }
+      ],
+      "extraScanFiles": []
+    },
+    {
+      "path": "gsipct/steam",
+      "registry": "ghcr.io/kitkat-starter/gsipct-steam",
+      "mirror": "ccr.ccs.tencentyun.com/cpdd/stm",
+      "schedule": [
+        {
+          "cron": "15 6 5 * *"
+        }
+      ],
+      "extraScanFiles": []
+    }
+  ]
+}

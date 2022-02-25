@@ -1,0 +1,16 @@
+{
+  "Mordhau/Saved/Config/LinuxServer/Game.ini": {
+    "parser": "ini",
+    "find": {
+      "/Script/Mordhau.MordhauGameSession.MaxSlots": "{{server.build.env.MAXPLAYERS}}",
+      "/Script/Mordhau.MordhauGameSession.ServerPassword": "{{server.build.env.PASSWD}}",
+      "/Script/Mordhau.MordhauGameSession.AdminPassword": "{{server.build.env.ADMINPW}}"
+    }
+  },
+  "Mordhau/Saved/Config/LinuxServer/Test.ini": {
+    "parser": "ini",
+    "find": {
+      "CNName": "{{server.build.env.NAME}}"
+    }
+  }
+}
