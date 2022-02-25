@@ -1,0 +1,6 @@
+./home/steam/steamcmd/steamcmd.sh +login anonymous +force_install_dir /home/steam/mordhau-dedicated +app_update 629800 +quit && \
+./home/steam/mordhau-dedicated/MordhauServer.sh -log -Port=$SERVER_PORT -QueryPort=$SERVER_QUERYPORT -BeaconPort=$SERVER_BEACONPORT -GAMEINI=/home/steam/mordhau-dedicated/Mordhau/Saved/Config/LinuxServer/Game.ini -ENGINEINI=/home/steam/mordhau-dedicated/Mordhau/Saved/Config/LinuxServer/Engine.ini
+
+
+./MordhauServer.sh -Port={{SERVER_PORT}} -PeerPort={{PPORT}} -BeaconPort={{BPORT}} -QueryPort={{QPORT}} -log
+./MordhauServer.sh -Port={{SERVER_PORT}} -BeaconPort={{BPORT}} -QueryPort={{QPORT}} -ServerName={{NAME}} -MaxSlots={{MAXPLAYERS}} -ServerPassword={{PASSWD}} -AdminPassword={{ADMINPW}}

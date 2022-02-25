@@ -1,0 +1,28 @@
+FROM alpine
+# 第一步 下载
+RUN apk update && \
+    apk add wget curl unzip tar gzip ca-certificates
+RUN curl https://api.github.com/repos/alibaba/dragonwell17/releases/latest \
+    | grep browser_download_url \
+    | grep x64 \
+    | grep linux \
+    | grep alpine \
+    | grep -v txt \
+    | cut -d '"' -f 4 \
+    | wget -O /tmp/openjdk.tar.gz -i -
+# 第二步 安装
+FROM alpine
+ENV LANG='en_US.UTF-8' LANGUAGE='en_US:en' LC_ALL='en_US.UTF-8'
+
+COPY --from=0 /tmp/openjdk.tar.gz /tmp/openjdk.tar.gz
+# 安装
+RUN mkdir -p /opt/java/dragonwell; \
+    cd /opt/java/dragonwell; \
+    tar -xf /tmp/openjdk.tar.gz --strip-components=1; \
+    rm -fr man/ja_JP.UTF-8 man/ja sample src.zip; \
+    apk del --purge .fetch-deps; \
+    rm -rf /var/cache/apk/*; \
+    rm -rf /tmp/openjdk.tar.gz;
+
+ENV JAVA_HOME=/opt/java/dragonwell \
+    PATH="/opt/java/dragonwell/bin:$PATH"

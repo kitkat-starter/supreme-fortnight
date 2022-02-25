@@ -1,0 +1,25 @@
+# ----------------------------------
+# Pterodactyl Core Dockerfile
+# Environment: AmazonCorretto-16
+# Minimum Panel Version: 0.6.0
+# ----------------------------------
+FROM amazoncorretto:16
+
+LABEL org.opencontainers.image.authors="noreplay@noreply.org"
+LABEL org.opencontainers.image.vendor="KKP"
+
+RUN yum install -y bash curl wget shadow-utils tzdata && \
+    yum clean all && \
+    rm -rf /var/lib/{cache,log}/ && \
+    adduser -D -h /home/container container
+
+
+USER container
+ENV  USER container
+ENV  HOME /home/container
+
+WORKDIR /home/container
+
+COPY ./entrypoint.sh /entrypoint.sh
+
+CMD ["/bin/bash", "/entrypoint.sh"]

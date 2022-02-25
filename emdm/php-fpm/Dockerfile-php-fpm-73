@@ -1,0 +1,104 @@
+FROM php:7.3-fpm AS builder
+
+# COPY pip.conf /root/.pip/pip.conf
+ADD https://raw.githubusercontent.com/mlocati/docker-php-extension-installer/master/install-php-extensions /usr/local/bin/
+# RUN sed -i 's/deb.debian.org/mirrors.cloud.tencent.com/g' /etc/apt/sources.list && \
+#     sed -i 's/security.debian.org/mirrors.cloud.tencent.com/g' /etc/apt/sources.list
+RUN cat /etc/apt/sources.list && \
+    DEBIAN_FRONTEND=noninteractive && \
+    apt update && \
+    # 安装组件
+    apt install -y --no-install-recommends \
+    bash \
+    unzip \
+    openssh-client \
+    wget \
+    curl \
+    libcurl4 \
+    #imap-dev \
+    openssl \
+    git \
+    python3 \
+    augeas-lenses \
+    ca-certificates \
+    dialog \
+    autoconf \
+    make \
+    gcc \
+    # 构件时依赖
+    python3-dev \
+    libzip-dev \
+    libbz2-dev \
+    libcurl4-openssl-dev \
+    libmcrypt-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    libicu-dev \
+    libxslt-dev \
+    libffi-dev \
+    libsqlite3-dev \
+    libpq-dev \
+    python3-pip && \
+    # 然后是 PHP73 的 zip
+    apt install -y --no-install-recommends \
+    libzip-dev \
+    zip && \
+    docker-php-ext-configure zip --with-libzip && \
+    docker-php-ext-install zip && \
+    # 扩展安装
+    docker-php-ext-configure gd && \
+    docker-php-ext-install -j$(nproc) pdo_mysql pgsql pdo_pgsql mysqli gd exif intl soap zip opcache bcmath zip && \
+    pecl install runkit7-alpha && \
+    # 一些扩展
+    chmod uga+x /usr/local/bin/install-php-extensions && sync && \
+    install-php-extensions imagick xdebug redis xsl imap && \
+    docker-php-source delete && \
+    # 删除自动加载的配置文件
+    rm -f /usr/local/etc/php/conf.d/docker-php-ext-{xdebug,opcache}.ini && \
+    rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
+    rm -f /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
+
+# 只安装需要的东西
+FROM php:7.3-fpm AS run
+# RUN sed -i 's/deb.debian.org/mirrors.cloud.tencent.com/g' /etc/apt/sources.list && \
+#     sed -i 's/security.debian.org/mirrors.cloud.tencent.com/g' /etc/apt/sources.list 
+RUN cat /etc/apt/sources.list && \
+    DEBIAN_FRONTEND=noninteractive && \
+    # 安装组件
+    apt update && \
+    apt install -y --no-install-recommends \
+    bash \
+    unzip \
+    openssh-client \
+    wget \
+    curl \
+    libcurl4 \
+    openssl \
+    git \
+    ca-certificates \
+    libzip4 \
+    libxslt1.1 \
+    libpq5 \
+    libmagickwand-6.q16-6 \
+    libmagickwand-6.q16hdri-6 \
+    libpng16-16 \
+    libc-client2007e \
+    libzip-dev \
+    zip
+# 拷贝编译好的扩展
+COPY --from=0 /usr/local/lib/php/extensions /usr/local/lib/php/extensions
+COPY --from=0 /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
+# 安装 Composer
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+    php composer-setup.php --quiet --install-dir=/usr/bin --filename=composer && \
+    rm composer-setup.php 
+# 处理用户的部分
+RUN addgroup --gid 1000 www && \
+    adduser --disabled-password --gecos "" --uid 1000 --gid 1000 www
+# 添加 PATH 索引
+ENV PATH=$PATH:$HOME/.composer/vendor/bin
+COPY entrypoint.sh /entrypoint.sh
+# 修复权限
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT [ "/entrypoint.sh" ]
