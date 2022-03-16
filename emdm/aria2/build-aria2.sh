@@ -1,9 +1,15 @@
-#!/bin/sh
+#!/bin/bash -ex
+set -ex
 echo "接下来构建 aria2 本体!"
 C_COMPILER="gcc"
 CXX_COMPILER="g++"
 # 下载 aria2 
 ARIA2_VER=1.36.0
+
+if [ "${DEBUG_BUILD}" = "true" ]; then
+    git config --global https.proxy ${PROXY_STAGING}
+fi
+
 git clone https://github.com/aria2/aria2/
 cd aria2
 git checkout release-$ARIA2_VER
