@@ -19,13 +19,16 @@ C_COMPILER="gcc"
 CXX_COMPILER="g++"
 
 
-PKG_CONFIG_PATH=/opt/aria2/build_libs/lib/pkgconfig/ \
+PKG_CONFIG_PATH=/opt/aria2/build_libs/lib/pkgconfig \
 LD_LIBRARY_PATH=/opt/aria2/build_libs/lib/ \
 CC="$C_COMPILER" \
 CXX="$CXX_COMPILER" \
-autoconf
+autoreconf --install
 ./configure \
     --prefix=$PREFIX \
+    --with-libz \
+    --with-libcares \
+    --with-libexpat \
     --without-libxml2 \
     --without-libgcrypt \
     --with-openssl \
@@ -34,9 +37,10 @@ autoconf
     --without-libgmp \
     --with-libssh2 \
     --with-sqlite3 \
+    --without-jemalloc \
     --with-ca-bundle='/etc/ssl/certs/ca-certificates.crt' \
     ARIA2_STATIC=yes \
-    --enable-shared=no
+    --disable-shared
 
 make -j$(nproc)
 make install

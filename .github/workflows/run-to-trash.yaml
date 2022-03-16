@@ -2,7 +2,7 @@ name: run-to-trash
 
 on:
   schedule:
-    - cron: "25 */4 * * *"
+    - cron: "0 12 * * *"
   workflow_dispatch: {}
   push:
 

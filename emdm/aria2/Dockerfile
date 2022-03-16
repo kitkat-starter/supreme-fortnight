@@ -1,5 +1,5 @@
 # 第一阶段,用来构建
-FROM debian
+FROM debian AS build
 # 用于开启调试模式
 ARG DEBUG_BUILD
 ENV DEBUG_BUILD=$DEBUG_BUILD
@@ -12,3 +12,7 @@ RUN  --mount=type=bind,target=/context \
     sh /context/build-deps.sh
 RUN  --mount=type=bind,target=/context \
     sh /context/build-aria2.sh
+
+# 第二阶段,把文件给我拿来
+FROM alpine AS run
+COPY --from=build /usr/local/bin/aria2c /usr/local/bin/aria2
