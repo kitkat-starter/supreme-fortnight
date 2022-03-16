@@ -9,7 +9,7 @@
           "cron": "30 5 * * 5"
         }
       ],
-      "extraScanFiles": ["php-fpm/scripts/*"]
+      "extraScanFiles": ["php-fpm/scripts/*", "aria2/scripts/*"]
     },
     {
       "path": "gsipct/java",
