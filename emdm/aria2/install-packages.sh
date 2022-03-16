@@ -21,7 +21,8 @@ unset https_proxy
 apt update
 apt install -y --no-install-recommends \
     make binutils autoconf automake autotools-dev libtool aria2 \
-    pkg-config git curl dpkg-dev autopoint libcppunit-dev libxml2-dev \
+    pkg-config git curl dpkg-dev gcc g++ autopoint \
+    libsqlite3-dev libcppunit-dev libxml2-dev \
     lzip
 
 # 更新结束记得重新启用

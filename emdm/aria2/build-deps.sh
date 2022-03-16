@@ -7,7 +7,7 @@ CXX_COMPILER="g++"
 # 如果有,我当然是希望用 aria2 来下载
  aria2c --help > /dev/null
  if [ "$?" -eq 0 ] ; then
-   DOWNLOADER="aria2c --check-certificate=false -s 64 -x 16"
+   DOWNLOADER="aria2c --check-certificate=false -x 16"
  else
    DOWNLOADER="wget -c"
  fi
@@ -56,9 +56,9 @@ cd $BUILD_DIRECTORY
   $DOWNLOADER $OPENSSL
   tar zxvf openssl-1.1.1l.tar.gz
   cd openssl-1.1.1l/
-  PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig/ LD_LIBRARY_PATH=$PREFIX/lib/ CC="$C_COMPILER" CXX="$CXX_COMPILER" ./Configure --prefix=$PREFIX linux-x86_64 shared
+  PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig/ LD_LIBRARY_PATH=$PREFIX/lib/ CC="$C_COMPILER" CXX="$CXX_COMPILER" ./Configure --prefix=$PREFIX linux-x86_64 no-tests
   make -j$(nproc)
-  make install
+  make install_sw
 #
  # 构建 sqlite3
   cd ..
