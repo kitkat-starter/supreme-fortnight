@@ -24,4 +24,3 @@ apt install -y --no-install-recommends \
     lzip
 
 # 更新结束记得重新启用
-export https_proxy=$HTTPS_PROXY_STAGING

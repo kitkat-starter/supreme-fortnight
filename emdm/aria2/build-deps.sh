@@ -1,17 +1,13 @@
 #!/bin/bash -ex
 set -ex
-# 设定一下路径
-PREFIX=/opt/aria2/build_libs
-C_COMPILER="gcc"
-CXX_COMPILER="g++"
 
 # 如果有,我当然是希望用 aria2 来下载
- aria2c --help > /dev/null
- if [ "$?" -eq 0 ] ; then
-   DOWNLOADER="aria2c --check-certificate=false -x 16"
- else
-   DOWNLOADER="wget -c"
- fi
+aria2c --help > /dev/null
+if [ "$?" -eq 0 ] ; then
+  DOWNLOADER="aria2c --check-certificate=false -x 16"
+else
+  DOWNLOADER="wget -c"
+fi
 
 # 精心挑选的依赖
 ZLIB=https://sourceforge.net/projects/libpng/files/zlib/1.2.11/zlib-1.2.11.tar.gz
@@ -23,6 +19,9 @@ SSH2=https://www.libssh2.org/download/libssh2-1.10.0.tar.gz
 
 ## CONFIG ##
 BUILD_DIRECTORY=/tmp/
+PREFIX=/opt/aria2/build_libs
+C_COMPILER="gcc"
+CXX_COMPILER="g++"
 
 ## BUILD ##
 cd $BUILD_DIRECTORY
