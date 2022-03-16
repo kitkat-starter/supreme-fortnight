@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash -ex
+set -ex
 # 换个国内源
 
 # 判断 DEBUG_BUILD 是否为 true
@@ -15,14 +16,11 @@ fi
 
 # 记得 这里是非交互式
 export DEBIAN_FRONTEND=noninteractive
-# 对更新不启用镜像源
-HTTPS_PROXY_STAGING=$https_proxy
-unset https_proxy
 apt update
 apt install -y --no-install-recommends \
     make binutils autoconf automake autotools-dev libtool aria2 \
     pkg-config git curl dpkg-dev gcc g++ autopoint \
-    libsqlite3-dev libcppunit-dev libxml2-dev \
+    libsqlite3-dev libcppunit-dev libxml2-dev zlib1g-dev \
     lzip
 
 # 更新结束记得重新启用

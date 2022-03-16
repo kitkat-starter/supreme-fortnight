@@ -1,4 +1,5 @@
-#!/bin/sh
+#!/bin/bash -ex
+set -ex
 # 设定一下路径
 PREFIX=/opt/aria2/build_libs
 C_COMPILER="gcc"
@@ -13,7 +14,7 @@ CXX_COMPILER="g++"
  fi
 
 # 精心挑选的依赖
-ZLIB=http://sourceforge.net/projects/libpng/files/zlib/1.2.11/zlib-1.2.11.tar.gz
+ZLIB=https://sourceforge.net/projects/libpng/files/zlib/1.2.11/zlib-1.2.11.tar.gz
 OPENSSL=https://www.openssl.org/source/openssl-1.1.1l.tar.gz
 EXPAT=https://github.com/libexpat/libexpat/releases/download/R_2_4_4/expat-2.4.4.tar.bz2
 SQLITE3=https://sqlite.org/2021/sqlite-autoconf-3360000.tar.gz
@@ -27,6 +28,7 @@ BUILD_DIRECTORY=/tmp/
 cd $BUILD_DIRECTORY
 #
  # 构建 ZLIB
+  $DOWNLOADER $ZLIB
   tar zxvf zlib-1.2.11.tar.gz
   cd zlib-1.2.11/
   PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig/ LD_LIBRARY_PATH=$PREFIX/lib/ CC="$C_COMPILER" CXX="$CXX_COMPILER" ./configure --prefix=$PREFIX --static

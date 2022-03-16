@@ -5,13 +5,13 @@ ARG DEBUG_BUILD
 ENV DEBUG_BUILD=$DEBUG_BUILD
 # 开启代理
 ARG PROXY
-ENV https_proxy=$PROXY
-RUN  --mount=type=bind,target=/context \
-    sh /context/install-packages.sh
-RUN  --mount=type=bind,target=/context \
-    sh /context/build-deps.sh
-RUN  --mount=type=bind,target=/context \
-    sh /context/build-aria2.sh
+ENV PROXY_STAGING=$PROXY
+RUN --mount=type=bind,target=/context \
+    bash /context/install-packages.sh
+RUN --mount=type=bind,target=/context \
+    bash /context/build-deps.sh
+RUN --mount=type=bind,target=/context \
+    bash /context/build-aria2.sh
 
 # 第二阶段,把文件给我拿来
 FROM alpine AS run
