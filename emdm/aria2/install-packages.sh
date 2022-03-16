@@ -18,7 +18,7 @@ fi
 export DEBIAN_FRONTEND=noninteractive
 apt update
 apt install -y --no-install-recommends \
-    make binutils autoconf automake autotools-dev libtool aria2 \
+    make binutils autoconf automake autotools-dev libtool aria2 ca-certificates \
     pkg-config git curl dpkg-dev gcc g++ autopoint \
     libsqlite3-dev libcppunit-dev libxml2-dev zlib1g-dev \
     lzip

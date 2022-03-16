@@ -30,7 +30,9 @@ cd $BUILD_DIRECTORY
   $DOWNLOADER $ZLIB
   tar zxvf zlib-1.2.11.tar.gz
   cd zlib-1.2.11/
-  PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig/ LD_LIBRARY_PATH=$PREFIX/lib/ CC="$C_COMPILER" CXX="$CXX_COMPILER" ./configure --prefix=$PREFIX --static
+  PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig/ LD_LIBRARY_PATH=$PREFIX/lib/ CC="$C_COMPILER" CXX="$CXX_COMPILER" ./configure \
+    --prefix=$PREFIX \
+    --static
   make -j$(nproc)
   make install
 #
@@ -39,7 +41,13 @@ cd $BUILD_DIRECTORY
   $DOWNLOADER $EXPAT
   tar jxvf expat-2.4.4.tar.bz2
   cd expat-2.4.4/
-  PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig/ LD_LIBRARY_PATH=$PREFIX/lib/ CC="$C_COMPILER" CXX="$CXX_COMPILER" ./configure --prefix=$PREFIX --enable-static --enable-shared
+  PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig/ LD_LIBRARY_PATH=$PREFIX/lib/ CC="$C_COMPILER" CXX="$CXX_COMPILER" ./configure \
+    --prefix=$PREFIX \
+    --enable-static \
+    --disable-shared \
+    --without-examples \
+    --without-tests \
+    --without-docbook
   make -j$(nproc)
   make install
 #
@@ -48,7 +56,11 @@ cd $BUILD_DIRECTORY
   $DOWNLOADER $C_ARES
   tar zxvf c-ares-1.17.2.tar.gz
   cd c-ares-1.17.2/
-  PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig/ LD_LIBRARY_PATH=$PREFIX/lib/ CC="$C_COMPILER" CXX="$CXX_COMPILER" ./configure --prefix=$PREFIX --enable-static --disable-shared
+  PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig/ LD_LIBRARY_PATH=$PREFIX/lib/ CC="$C_COMPILER" CXX="$CXX_COMPILER" ./configure \
+    --prefix=$PREFIX \
+    --enable-static \
+    --disable-shared \
+    --disable-tests
   make -j$(nproc)
   make install
 #
@@ -57,7 +69,10 @@ cd $BUILD_DIRECTORY
   $DOWNLOADER $OPENSSL
   tar zxvf openssl-1.1.1l.tar.gz
   cd openssl-1.1.1l/
-  PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig/ LD_LIBRARY_PATH=$PREFIX/lib/ CC="$C_COMPILER" CXX="$CXX_COMPILER" ./Configure --prefix=$PREFIX linux-x86_64 no-tests
+  PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig/ LD_LIBRARY_PATH=$PREFIX/lib/ CC="$C_COMPILER" CXX="$CXX_COMPILER" ./Configure \
+    --prefix=$PREFIX \
+    linux-x86_64 \
+    no-tests
   make -j$(nproc)
   make install_sw
 #
@@ -66,7 +81,11 @@ cd $BUILD_DIRECTORY
   $DOWNLOADER $SQLITE3
   tar zxvf sqlite-autoconf-3360000.tar.gz
   cd sqlite-autoconf-3360000/
-  PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig/ LD_LIBRARY_PATH=$PREFIX/lib/ CC="$C_COMPILER" CXX="$CXX_COMPILER" ./configure --prefix=$PREFIX --enable-static --enable-shared
+  PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig/ LD_LIBRARY_PATH=$PREFIX/lib/ CC="$C_COMPILER" CXX="$CXX_COMPILER" ./configure \
+    --prefix=$PREFIX \
+    --enable-static \
+    --enable-shared \
+    --disable-dynamic-extensions
   make -j$(nproc)
   make install
 #
@@ -76,7 +95,14 @@ cd $BUILD_DIRECTORY
   tar zxvf libssh2-1.10.0.tar.gz
   cd libssh2-1.10.0/
   rm -rf $PREFIX/lib/pkgconfig/libssh2.pc
-  PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig/ LD_LIBRARY_PATH=$PREFIX/lib/ CC="$C_COMPILER" CXX="$CXX_COMPILER" ./configure --without-libgcrypt --with-openssl --without-wincng --prefix=$PREFIX --enable-static --disable-shared
+  PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig/ LD_LIBRARY_PATH=$PREFIX/lib/ CC="$C_COMPILER" CXX="$CXX_COMPILER" ./configure \
+    --prefix=$PREFIX \
+    --without-libgcrypt \
+    --with-openssl \
+    --without-wincng \
+    --disable-examples-build \
+    --enable-static \
+    --disable-shared
   make -j$(nproc)
   make install
 #
