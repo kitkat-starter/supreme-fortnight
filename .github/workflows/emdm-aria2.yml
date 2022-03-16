@@ -5,6 +5,7 @@ on:
       - emdm/aria2/Dockerfile
       - emdm/aria2/entrypoint.sh
       - .github/workflows/emdm-aria2.yml
+      - emdm/aria2/scripts/*
   schedule:
     - cron: 30 5 * * 5
   workflow_dispatch: {}

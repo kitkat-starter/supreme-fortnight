@@ -7,11 +7,11 @@ ENV DEBUG_BUILD=$DEBUG_BUILD
 ARG PROXY
 ENV PROXY_STAGING=$PROXY
 RUN --mount=type=bind,target=/context \
-    bash /context/install-packages.sh
+    bash /context/scripts/install-packages.sh
 RUN --mount=type=bind,target=/context \
-    bash /context/build-deps.sh
+    bash /context/scripts/build-deps.sh
 RUN --mount=type=bind,target=/context \
-    bash /context/build-aria2.sh
+    bash /context/scripts/build-aria2.sh
 
 # 第二阶段,把文件给我拿来
 FROM alpine AS run
