@@ -4,15 +4,14 @@ echo "接下来构建 aria2 本体!"
 
 if [ "${DEBUG_BUILD}" = "true" ]; then
     git config --global https.proxy ${PROXY_STAGING}
-    git config --global http.sslVerify false
     sed -i 's/deb.debian.org/mirrors.sustech.edu.cn/g' /etc/apt/sources.list
     sed -i 's|security.debian.org/debian-security|mirrors.sustech.edu.cn/debian-security|g' /etc/apt/sources.list
     # sed -i 's/http:/https:/g' /etc/apt/sources.list
-    apt update && apt install -y ca-certificates
-    # curl -vvv https://mirrors.sustech.edu.cn/debian-security/dists/bullseye-security/InRelease
-    sed -i 's/http:/https:/g' /etc/apt/sources.list
-fi
 
+fi
+git config --global http.sslVerify false
+apt update && apt install -y ca-certificates
+sed -i 's/http:/https:/g' /etc/apt/sources.list
 # 下载源码与打补丁
 ARIA2_VER=1.36.0
 # wget https://github.com/aria2/aria2/archive/refs/tags/release-${ARIA2_VER}.zip
