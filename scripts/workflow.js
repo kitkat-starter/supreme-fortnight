@@ -22,7 +22,7 @@ const workflowMain = {
     // ACR_XL_PASSWORD: "${{ secrets.ACR_XL_PASSWORD }}",
     HUB_USERNAME: "${{ secrets.HUB_USERNAME }}",
     HUB_PASSWORD: "${{ secrets.HUB_PASSWORD }}",
-    GHCR_USERNAME: "${{ github.actor }}}",
+    GHCR_USERNAME: "${{ github.actor }}",
     GHCR_PASSWORD: "${{ secrets.GITHUB_TOKEN }}",
   },
   jobs: {},
