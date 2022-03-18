@@ -24,7 +24,7 @@ PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig"
 LD_LIBRARY_PATH="$PREFIX/lib"
 C_COMPILER="gcc"
 CXX_COMPILER="g++"
-CC="$C_COMPILER" 
+CC="$C_COMPILER"
 CXX="$CXX_COMPILER"
 
 ## BUILD ##
@@ -39,7 +39,7 @@ function BUILD_ZLIB(){
     --static
   make -j$(nproc)
   make install
-  pushd
+  cd ..
 }
 
 function BUILD_EXPAT(){
@@ -55,7 +55,7 @@ function BUILD_EXPAT(){
     --without-docbook
   make -j$(nproc)
   make install
-  pushd
+  cd ..
 }
 
 function BUILD_CARES() {
@@ -69,7 +69,7 @@ function BUILD_CARES() {
     --disable-tests
   make -j$(nproc)
   make install
-  pushd
+  cd ..
 }
 
 function BUILD_OPENSSL() {
@@ -82,7 +82,7 @@ function BUILD_OPENSSL() {
     no-tests
   make -j$(nproc)
   make install_sw
-  pushd
+  cd ..
 }
 
 function BUILD_SQLITE() {
@@ -96,7 +96,7 @@ function BUILD_SQLITE() {
     --disable-dynamic-extensions
   make -j$(nproc)
   make install
-  pushd
+  cd ..
 }
 
 function BUILD_LIBSSH2(){
@@ -114,7 +114,7 @@ function BUILD_LIBSSH2(){
     --disable-shared
   make -j$(nproc)
   make install
-  pushd
+  cd ..
 }
 
 BUILD_ZLIB
