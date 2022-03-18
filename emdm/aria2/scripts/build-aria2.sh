@@ -27,8 +27,8 @@ LIBS_PREFIX=/opt/aria2-build-libs
 PREFIX=/usr/local
 C_COMPILER="gcc"
 CXX_COMPILER="g++"
-PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig"
-LD_LIBRARY_PATH="$PREFIX/lib"
+PKG_CONFIG_PATH="$LIBS_PREFIX/lib/pkgconfig"
+LD_LIBRARY_PATH="$LIBS_PREFIX/lib"
 CC="$C_COMPILER"
 CXX="$CXX_COMPILER"
 
