@@ -23,13 +23,18 @@ git apply /context/patch/*
 
 
 # 构建 aria2
+LIBS_PREFIX=/opt/aria2-build-libs
 PREFIX=/usr/local
 C_COMPILER="gcc"
 CXX_COMPILER="g++"
-PKG_CONFIG_PATH=/opt/aria2/build_libs/lib/pkgconfig/
-LD_LIBRARY_PATH=/opt/aria2/build_libs/lib/
-CC="$C_COMPILER" \
-CXX="$CXX_COMPILER" \
+PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig"
+LD_LIBRARY_PATH="$PREFIX/lib"
+CC="$C_COMPILER"
+CXX="$CXX_COMPILER"
+
+# 检查一下依赖库
+ls -l ${PKG_CONFIG_PATH}
+ls -l ${LD_LIBRARY_PATH}
 
 autoreconf --install
 ./configure \
