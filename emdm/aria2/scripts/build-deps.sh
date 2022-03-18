@@ -18,7 +18,7 @@ C_ARES=https://c-ares.haxx.se/download/c-ares-1.17.2.tar.gz
 SSH2=https://www.libssh2.org/download/libssh2-1.10.0.tar.gz
 
 ## CONFIG ##
-BUILD_DIRECTORY=/tmp/
+BUILD_DIRECTORY=/opt/build
 PREFIX=/opt/aria2-build-libs
 PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig"
 LD_LIBRARY_PATH="$PREFIX/lib"
@@ -28,9 +28,9 @@ CC="$C_COMPILER"
 CXX="$CXX_COMPILER"
 
 ## BUILD ##
-cd $BUILD_DIRECTORY
-#
- # 构建 ZLIB
+mkdir -p ${BUILD_DIRECTORY} &&  cd ${BUILD_DIRECTORY}
+
+function BUILD_ZLIB(){
   $DOWNLOADER $ZLIB
   tar zxvf zlib-1.2.11.tar.gz
   cd zlib-1.2.11/
@@ -39,9 +39,10 @@ cd $BUILD_DIRECTORY
     --static
   make -j$(nproc)
   make install
-#
- # 构建 expat
-  cd ..
+  pushd
+}
+
+function BUILD_EXPAT(){
   $DOWNLOADER $EXPAT
   tar jxvf expat-2.4.4.tar.bz2
   cd expat-2.4.4/
@@ -54,9 +55,10 @@ cd $BUILD_DIRECTORY
     --without-docbook
   make -j$(nproc)
   make install
-#
- # 构建 c-ares
-  cd ..
+  pushd
+}
+
+function BUILD_CARES() {
   $DOWNLOADER $C_ARES
   tar zxvf c-ares-1.17.2.tar.gz
   cd c-ares-1.17.2/
@@ -67,9 +69,10 @@ cd $BUILD_DIRECTORY
     --disable-tests
   make -j$(nproc)
   make install
-#
- # 构建 OpenSSL
-  cd ..
+  pushd
+}
+
+function BUILD_OPENSSL() {
   $DOWNLOADER $OPENSSL
   tar zxvf openssl-1.1.1l.tar.gz
   cd openssl-1.1.1l/
@@ -79,9 +82,10 @@ cd $BUILD_DIRECTORY
     no-tests
   make -j$(nproc)
   make install_sw
-#
- # 构建 sqlite3
-  cd ..
+  pushd
+}
+
+function BUILD_SQLITE() {
   $DOWNLOADER $SQLITE3
   tar zxvf sqlite-autoconf-3360000.tar.gz
   cd sqlite-autoconf-3360000/
@@ -92,9 +96,10 @@ cd $BUILD_DIRECTORY
     --disable-dynamic-extensions
   make -j$(nproc)
   make install
-#
- # 构建 libssh2
-  cd ..
+  pushd
+}
+
+function BUILD_LIBSSH2(){
   $DOWNLOADER $SSH2
   tar zxvf libssh2-1.10.0.tar.gz
   cd libssh2-1.10.0/
@@ -109,14 +114,14 @@ cd $BUILD_DIRECTORY
     --disable-shared
   make -j$(nproc)
   make install
-#
- #cleaning
-  cd ..
-  rm -rf c-ares*
-  rm -rf sqlite-autoconf*
-  rm -rf zlib-*
-  rm -rf expat-*
-  rm -rf openssl-*
-  rm -rf libssh2-*
-#
+  pushd
+}
+
+BUILD_ZLIB
+BUILD_EXPAT
+BUILD_CARES
+BUILD_OPENSSL
+BUILD_SQLITE
+BUILD_LIBSSH2
+
 echo "依赖构建完成!"
