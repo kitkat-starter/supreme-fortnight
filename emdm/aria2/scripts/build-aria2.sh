@@ -26,8 +26,8 @@ git apply /context/patch/*
 PREFIX=/usr/local
 C_COMPILER="gcc"
 CXX_COMPILER="g++"
-PKG_CONFIG_PATH=/opt/aria2/build_libs/lib/pkgconfig \
-LD_LIBRARY_PATH=/opt/aria2/build_libs/lib/ \
+PKG_CONFIG_PATH=/opt/aria2/build_libs/lib/pkgconfig/
+LD_LIBRARY_PATH=/opt/aria2/build_libs/lib/
 CC="$C_COMPILER" \
 CXX="$CXX_COMPILER" \
 
