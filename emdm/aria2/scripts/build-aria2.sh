@@ -41,8 +41,7 @@ autoreconf --install
     --prefix=$PREFIX \
     --with-libz \
     --with-libcares \
-    --with-libexpat \
-    --without-libxml2 \
+    --with-libxml2 \
     --without-libgcrypt \
     --with-openssl \
     --without-libnettle \
