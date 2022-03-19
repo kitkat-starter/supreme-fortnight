@@ -9,6 +9,12 @@ else
   DOWNLOADER="wget -c"
 fi
 
+# 记得
+if [ "${DEBUG_BUILD}" = "true" ]; then
+  export https_proxy=${PROXY_STAGING}
+  export HTTPS_PROXY=${PROXY_STAGING}
+fi
+
 # 精心挑选的依赖
 ZLIB=https://sourceforge.net/projects/libpng/files/zlib/1.2.11/zlib-1.2.11.tar.gz
 OPENSSL=https://www.openssl.org/source/openssl-1.1.1l.tar.gz
@@ -20,12 +26,12 @@ SSH2=https://www.libssh2.org/download/libssh2-1.10.0.tar.gz
 ## CONFIG ##
 BUILD_DIRECTORY=/opt/build
 PREFIX=/opt/aria2-build-libs
-PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig"
-LD_LIBRARY_PATH="$PREFIX/lib"
 C_COMPILER="gcc"
 CXX_COMPILER="g++"
-CC="$C_COMPILER"
-CXX="$CXX_COMPILER"
+export PKG_CONFIG_PATH="$PREFIX/lib/pkgconfig"
+export LD_LIBRARY_PATH="$PREFIX/lib"
+export CC="$C_COMPILER"
+export CXX="$CXX_COMPILER"
 
 ## BUILD ##
 mkdir -p ${BUILD_DIRECTORY} &&  cd ${BUILD_DIRECTORY}
