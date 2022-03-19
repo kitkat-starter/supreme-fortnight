@@ -35,7 +35,7 @@ export CXX="$CXX_COMPILER"
 # 检查一下依赖库
 ls -l ${PKG_CONFIG_PATH}
 ls -l ${LD_LIBRARY_PATH}
-${PKG_CONFIG_PATH} -list-all
+pkg-config -list-all
 
 autoreconf --install
 ./configure \
