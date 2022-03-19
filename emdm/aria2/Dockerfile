@@ -1,5 +1,5 @@
 # 第一阶段,用来构建
-FROM debian AS build
+FROM alpine AS build
 # 用于开启调试模式
 ARG DEBUG_BUILD
 ENV DEBUG_BUILD=$DEBUG_BUILD
@@ -7,7 +7,7 @@ ENV DEBUG_BUILD=$DEBUG_BUILD
 ARG PROXY
 ENV PROXY_STAGING=$PROXY
 RUN --mount=type=bind,target=/context \
-    bash /context/scripts/install-packages.sh
+    sh /context/scripts/install-packages.sh
 RUN --mount=type=bind,target=/context \
     bash /context/scripts/build-deps.sh
 RUN --mount=type=bind,target=/context \
@@ -15,4 +15,8 @@ RUN --mount=type=bind,target=/context \
 
 # 第二阶段,把文件给我拿来
 FROM alpine AS run
-COPY --from=build /usr/local/bin/aria2c /usr/local/bin/aria2
+COPY --from=build /usr/local/bin/aria2c /usr/local/bin/aria2c
+RUN apk add --no-cache ca-certificates && \
+    mkdir -p /etc/aria2
+CMD ["--conf-path","/etc/aria2/aria2c.conf"]
+ENTRYPOINT [ "/usr/local/bin/aria2" ]
