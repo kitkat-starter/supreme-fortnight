@@ -22,6 +22,7 @@ jobs:
               );
             for (pack of respPackages.data){
               const packName=pack.name;
+              console.log(`delete from packages ${packName}`)
               const response = await github.request(`GET /orgs/${{ env.OWNER }}/packages/container/${packName}/versions`,
                 { per_page: 30 });
               for(version of response.data) {
