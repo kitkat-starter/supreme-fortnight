@@ -1,14 +1,9 @@
 FROM golang:alpine AS go-build
-
-RUN apk --no-cache add --update git upx
-RUN git clone https://github.com/octeep/wireproxy.git
-RUN cd ./wireproxy
-RUN CGO_ENABLED=0 go build -ldflags "-s -w" -o wireproxy
-RUN upx wireproxy
-
+RUN apk --no-cache add --update git upx bash
+WORKDIR /context
+RUN  --mount=type=bind,target=/context \
+    bash /context/build.sh
 
 FROM alpine:latest
-
-COPY --from=go-build /go/wireproxy/wireproxy /usr/bin/
-
+COPY --from=go-build /context/wireproxy/wireproxy /usr/bin/
 ENTRYPOINT [ "/usr/bin/wireproxy", "/etc/wireproxy/config" ]
