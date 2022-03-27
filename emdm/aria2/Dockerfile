@@ -16,7 +16,7 @@ RUN --mount=type=bind,target=/context \
 # 第二阶段,把文件给我拿来
 FROM alpine AS run
 COPY --from=build /usr/local/bin/aria2c /usr/local/bin/aria2c
-RUN apk add --no-cache ca-certificates && \
+RUN apk add --no-cache ca-certificates curl bash jq findutils && \
     mkdir -p /etc/aria2
 CMD ["--conf-path","/etc/aria2/aria2c.conf"]
 ENTRYPOINT [ "/usr/local/bin/aria2" ]
