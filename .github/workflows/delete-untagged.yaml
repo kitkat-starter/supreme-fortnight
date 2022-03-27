@@ -1,0 +1,19 @@
+name: delete-untagged
+
+on:
+  schedule:
+    - cron: "5 4 */3 * *"
+  workflow_dispatch: {}
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 删除 untagged 镜像
+        uses: bots-house/ghcr-delete-image-action@v1.1.0
+        with:
+          owner: bots-house
+          name: some-web-service
+          token: ${{ secrets.GH_TOKEN }}
+          untagged: all
