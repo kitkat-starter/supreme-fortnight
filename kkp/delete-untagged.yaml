@@ -13,7 +13,7 @@ jobs:
       - name: 删除 untagged 镜像
         uses: bots-house/ghcr-delete-image-action@v1.1.0
         with:
-          owner: bots-house
-          name: some-web-service
+          owner: ${{ github.repository_owner }}
+          name: ${{ github.event.repository.name }}
           token: ${{ secrets.GH_TOKEN }}
           untagged: all
