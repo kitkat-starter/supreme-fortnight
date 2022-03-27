@@ -16,8 +16,8 @@ jobs:
           script: |
             const respPackages = await octokit.request("GET /{org}/packages",
               {
-                package_type: "container"
-                org: '${{ env.OWNER }}'
+                package_type: "container",
+                org: "${{ env.OWNER }}"
               }
               );
             for (pack of respPackages.data){
@@ -27,7 +27,7 @@ jobs:
               for(version of response.data) {
                   if (version.metadata.container.tags.length == 0) {
                       console.log("delete " + version.id)
-                      const deleteResponse = await github.request("DELETE /${{ env.OWNER }}/packages/container/${{ env.PACKAGE_NAME }}/versions/" + version.id, { });
+                      const deleteResponse = await github.request("DELETE /${{ env.OWNER }}/packages/container/${packName}/versions/" + version.id, { });
                       console.log("status " + deleteResponse.status)
                   }
               }
