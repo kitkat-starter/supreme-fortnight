@@ -15,12 +15,12 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const respPackages = await github.request("GET /${{ env.OWNER }}/packages",
-              { package_type: container }
+              { package_type: "container" }
               );
             for (pack in respPackages.data){
               const packName=pack.name;
               const response = await github.request(`GET /${{ env.OWNER }}/packages/container/${packName}/versions`,
-                { per_page: ${{ env.PER_PAGE }}
+                { per_page: 30}
               });
               for(version of response.data) {
                   if (version.metadata.container.tags.length == 0) {
