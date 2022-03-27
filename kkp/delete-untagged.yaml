@@ -24,7 +24,7 @@ jobs:
               const packName=pack.name;
               console.log(`delete from packages ${packName}`)
               const response = await github.request(`GET /orgs/${{ env.OWNER }}/packages/container/${packName}/versions`,
-                { per_page: 30 });
+                { per_page: 100 });
               for(version of response.data) {
                   if (version.metadata.container.tags.length == 0) {
                       console.log("delete " + version.id)
