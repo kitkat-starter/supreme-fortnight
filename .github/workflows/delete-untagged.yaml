@@ -14,7 +14,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const respPackages = await octokit.request("GET /{org}/packages",
+            const respPackages = await github.request("GET /{org}/packages",
               {
                 package_type: "container",
                 org: "${{ env.OWNER }}"
