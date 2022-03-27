@@ -14,7 +14,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const respPackages = await github.request("GET /{org}/packages",
+            const respPackages = await github.request("GET /orgs/{org}/packages",
               {
                 package_type: "container",
                 org: "${{ env.OWNER }}"
@@ -22,16 +22,16 @@ jobs:
               );
             for (pack of respPackages.data){
               const packName=pack.name;
-              const response = await github.request(`GET /${{ env.OWNER }}/packages/container/${packName}/versions`,
+              const response = await github.request(`GET /orgs/${{ env.OWNER }}/packages/container/${packName}/versions`,
                 { per_page: 30 });
               for(version of response.data) {
                   if (version.metadata.container.tags.length == 0) {
                       console.log("delete " + version.id)
-                      const deleteResponse = await github.request("DELETE /${{ env.OWNER }}/packages/container/${packName}/versions/" + version.id, { });
+                      const deleteResponse = await github.request("DELETE /orgs/${{ env.OWNER }}/packages/container/${packName}/versions/" + version.id, { });
                       console.log("status " + deleteResponse.status)
                   }
               }
             }
 
         env:
-          OWNER: orgs/${{ github.repository_owner }}
+          OWNER: ${{ github.repository_owner }}
