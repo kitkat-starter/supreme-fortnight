@@ -4,5 +4,5 @@ RUN  --mount=type=bind,target=/context \
     bash /context/build.sh
 
 FROM alpine:latest
-COPY --from=go-build /wireproxy/wireproxy /usr/bin/
+COPY --from=go-build /go/wireproxy/wireproxy /usr/bin/
 ENTRYPOINT [ "/usr/bin/wireproxy" ]
