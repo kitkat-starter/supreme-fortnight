@@ -1,6 +1,5 @@
 FROM golang:alpine AS go-build
 RUN apk --no-cache add --update git upx bash
-WORKDIR /context
 RUN  --mount=type=bind,target=/context \
     bash /context/build.sh
 
