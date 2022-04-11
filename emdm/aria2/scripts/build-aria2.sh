@@ -60,3 +60,5 @@ make -j$(nproc)
 make install
 # 检查是否是静态的
 # ldd /usr/local/bin/aria2c
+# 去掉符号
+strip /usr/local/bin/aria2c
