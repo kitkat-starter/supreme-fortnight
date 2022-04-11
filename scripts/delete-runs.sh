@@ -1,5 +1,5 @@
 #!/bin/bash
-RUNS_WITH_NAME=$(gh api repos/${GH_REPO}/actions/runs --paginate -X GET -f status=completed -f per_page=100 | jq -r '.workflow_runs[].id')
+RUNS_WITH_NAME=$(gh api repos/${GH_REPO}/actions/runs --paginate -X GET -f query=status=completed -f per_page=100 | jq -r '.workflow_runs[].id')
 # 循环 RUNS_WITH_NAME
 for RUN_ID in $RUNS_WITH_NAME
 do
