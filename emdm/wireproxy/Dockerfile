@@ -4,6 +4,5 @@ RUN  --mount=type=bind,target=/context \
     bash /context/build.sh
 
 FROM alpine:latest
-RUN apk --no-cache add privoxy
 COPY --from=go-build /go/wireproxy/wireproxy /usr/bin/
 ENTRYPOINT [ "/usr/bin/wireproxy" ]
