@@ -12,8 +12,7 @@ RUN unzip mosdns.zip
 # 此处为了照顾脚本,没有使用 scratch
 FROM alpine
 COPY --from=builder /mosdns /
-COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
 RUN apk update && \
-    apk add bash
-CMD [ "-dir" ,"/etc/mosdns"] 
+    apk add bash curl ca-certificates
+CMD [ "-dir" ,"/etc/mosdns"]
 ENTRYPOINT [ "/mosdns" ]
