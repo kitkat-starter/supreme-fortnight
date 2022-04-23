@@ -9,8 +9,11 @@ RUN curl https://api.github.com/repos/IrineSistiana/mosdns/releases/latest \
     | cut -d '"' -f 4 \
     | wget -O mosdns.zip -i -
 RUN unzip mosdns.zip
-FROM scratch
+# 此处为了照顾脚本,没有使用 scratch
+FROM alpine
 COPY --from=builder /mosdns /
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+RUN apk update && \
+    apk add bash
 CMD [ "-dir" ,"/etc/mosdns"] 
 ENTRYPOINT [ "/mosdns" ]
