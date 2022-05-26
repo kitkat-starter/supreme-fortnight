@@ -10,7 +10,7 @@ LABEL org.opencontainers.image.vendor="KKP"
 
 RUN apk --no-cache update && \
     apk --no-cache add bash curl wget tzdata ca-certificates && \
-    adduser -d /home/container -m container
+    adduser -D -h /home/container container
 
 USER container
 ENV  USER container
