@@ -11,7 +11,7 @@ LABEL org.opencontainers.image.vendor="KKP"
 RUN yum install -y bash curl wget shadow-utils tzdata && \
     yum clean all && \
     rm -rf /var/lib/{cache,log}/ && \
-    adduser -D -h /home/container container
+    adduser -d /home/container -m container
 
 USER container
 ENV  USER container
