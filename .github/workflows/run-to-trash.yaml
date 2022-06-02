@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: "5 4 */3 * *"
   workflow_dispatch: {}
-  push:
+  # push:
 
 jobs:
   build:
