@@ -29,6 +29,6 @@ FROM alpine
 COPY --from=builder /mosdns /
 COPY --from=builder /geoip.dat /geosite.dat /usr/share/mosdns/
 RUN apk update && \
-    apk add bash curl ca-certificates dig
+    apk add bash curl ca-certificates bind-tools
 CMD [ "-dir" ,"/etc/mosdns"]
 ENTRYPOINT [ "/mosdns" ]
