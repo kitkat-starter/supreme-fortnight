@@ -10,7 +10,16 @@ RUN curl https://api.github.com/repos/MetaCubeX/Clash.Meta/releases/latest \
     | wget -O /clash.gz -i -
 RUN gzip -d /clash.gz
 RUN chmod +x /clash
-# 第二阶段,只有二进制文件
+FROM node:alpine
+RUN apk update && \
+    apk add wget curl unzip tar gzip ca-certificates git
+RUN git clone https://github.com/MetaCubeX/Yacd-meta
+RUN cd Yacd-meta && \
+    corepack enable \
+    pnpm i \
+    pnpm build
+# 最后,组合起来
 FROM alpine
 COPY --from=0 /clash /clash
+COPY --from=1 /Yacd-meta/public /yacd
 ENTRYPOINT [ "/clash" ]
