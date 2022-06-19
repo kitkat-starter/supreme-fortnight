@@ -9,7 +9,6 @@ RUN curl https://api.github.com/repos/MetaCubeX/Clash.Meta/releases/latest \
     | cut -d '"' -f 4 \
     | wget -O /clash.gz -i -
 RUN gzip -d /clash.gz
-RUN mv Clash* clash
 RUN chmod +x /clash
 # 第二阶段,只有二进制文件
 FROM alpine
