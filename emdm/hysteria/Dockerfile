@@ -5,7 +5,7 @@ RUN curl https://api.github.com/repos/HyNetwork/hysteria/releases/latest \
     | grep browser_download_url \
     | grep linux \
     | grep amd64 \
-    | grep tun \
+    | grep -v tun \
     | cut -d '"' -f 4 \
     | wget -O /hysteria -i -
 RUN chmod +x /hysteria
