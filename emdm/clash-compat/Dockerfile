@@ -15,8 +15,8 @@ RUN apk update && \
     apk add wget curl unzip tar gzip ca-certificates git
 RUN git clone https://github.com/MetaCubeX/Yacd-meta
 RUN cd Yacd-meta && \
-    corepack enable \
-    pnpm i \
+    corepack enable && \
+    pnpm i && \
     pnpm build
 # 最后,组合起来
 FROM alpine
