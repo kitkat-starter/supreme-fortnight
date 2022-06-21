@@ -26,7 +26,7 @@ gmp
 bcmath
 # 文件扩展
 zip
-smbclient
+# smbclient
 # 网络/协议扩展
 soap
 grpc
@@ -57,9 +57,11 @@ smbclient
 runkit7
 xdebug
 )
-for ext in ${STRIP_EXTS[@]}; do
-    strip --strip-unneeded ${PHP_EXTS_DIR}/${ext}.so
-done
+# for ext in ${STRIP_EXTS[@]}; do
+#     strip --strip-unneeded ${PHP_EXTS_DIR}/${ext}.so
+# done
+# 全部去除
+strip --strip-unneeded ${PHP_EXTS_DIR}/*.so
 
 # 删除自动加载
 rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
