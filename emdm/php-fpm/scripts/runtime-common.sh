@@ -42,7 +42,7 @@ libpq5
 # zip
 "^libzip[0-9]$"
 # smbclient
-libsmbclient
+# libsmbclient
 # imap
 libc-client2007e
 # intl
