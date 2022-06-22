@@ -6,11 +6,12 @@ https://github.com/mlocati/docker-php-extension-installer/releases/latest/downlo
 chmod +x /usr/local/bin/install-php-extensions
 
 # 下载 RoadRunner
-curl https://api.github.com/repos/spiral/roadrunner-binary/releases/latest \
+curl https://api.github.com/repos/roadrunner-server/roadrunner/releases/latest \
     | grep browser_download_url \
     | grep -v protoc \
     | grep linux \
     | grep amd64 \
+    | grep -v deb \
     | cut -d '"' -f 4 \
     | wget -i - -O /roadrunner.tar.gz
 mkdir -p /roadrunner
