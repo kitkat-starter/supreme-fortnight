@@ -3,7 +3,7 @@
 # Environment: BellSoftLiberica-17 With Py3
 # Minimum Panel Version: 0.6.0
 # ----------------------------------
-FROM bellsoft/liberica-openjdk-debian:11
+FROM bellsoft/liberica-openjdk-debian:17
 
 LABEL org.opencontainers.image.authors="noreplay@noreply.org"
 LABEL org.opencontainers.image.vendor="KKP"
