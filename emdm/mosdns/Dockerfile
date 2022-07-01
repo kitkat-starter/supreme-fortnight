@@ -30,5 +30,5 @@ COPY --from=builder /mosdns /
 COPY --from=builder /geoip.dat /geosite.dat /usr/share/mosdns/
 RUN apk update && \
     apk add bash curl ca-certificates bind-tools
-CMD [ "-dir" ,"/etc/mosdns"]
+CMD [ "start","-c","/etc/mosdns/config.yaml","-d" ,"/etc/mosdns"]
 ENTRYPOINT [ "/mosdns" ]
