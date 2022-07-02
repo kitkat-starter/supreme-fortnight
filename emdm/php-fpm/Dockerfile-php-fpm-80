@@ -2,7 +2,7 @@ FROM php:8.0-fpm AS builder
 
 WORKDIR /context
 RUN  --mount=type=bind,target=/context \
-    bash /context/scripts/bootstrap.sh
+    bash /context/scripts/install-bootstrap.sh
 
 # 只安装需要的东西
 FROM php:8.0-fpm AS run
@@ -13,7 +13,7 @@ COPY --from=0 /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
 
 # 一句话做好准备
 RUN  --mount=type=bind,target=/context \
-    bash /context/scripts/runtime-common.sh
+    bash /context/scripts/runtime-bootstrap.sh
 
 # 添加 PATH 索引
 ENV PATH=$PATH:$HOME/.composer/vendor/bin
