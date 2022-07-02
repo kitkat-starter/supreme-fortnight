@@ -38,7 +38,8 @@ libpq5
 # gd
 "libfreetype6"
 "libjpeg62-turbo"
-"^libpng[0-9]+-[0-9]+$ libxpm4"
+"^libpng[0-9]+-[0-9]+$"
+"libxpm4"
 "^libwebp[0-9]+$"
 # zip
 "^libzip[0-9]$"
