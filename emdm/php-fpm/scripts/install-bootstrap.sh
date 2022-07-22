@@ -1,5 +1,5 @@
 #!/bin/bash
-# set -x
+set -x
 SHELL_FOLDER=$(cd "$(dirname "$0")";pwd)
 # echo "$SHELL_FOLDER"
 PHP_VERSION=$(php -r "echo PHP_VERSION;" | cut -d "." -f 1,2 | cut -c 1,3)

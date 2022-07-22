@@ -1,12 +1,13 @@
-name: 构建 gsipct-steam-ark-survival-evolved 镜像
+name: 构建 emdm-php-fpm-81-src 镜像
 on:
   push:
     paths:
-      - gsipct/steam/ark-survival-evolved/Dockerfile
-      - gsipct/steam/ark-survival-evolved/entrypoint.sh
-      - .github/workflows/gsipct-steam-ark-survival-evolved.yml
+      - emdm/php-fpm/Dockerfile-php-fpm-81-src
+      - emdm/php-fpm/entrypoint.sh
+      - .github/workflows/emdm-php-fpm-81-src.yml
+      - emdm/php-fpm/scripts/*
   schedule:
-    - cron: 15 6 5 * *
+    - cron: 30 5 * * 5
   workflow_dispatch: {}
 env:
   TKE_USERNAME: ${{ secrets.TKE_USERNAME }}
@@ -16,7 +17,7 @@ env:
   GHCR_USERNAME: ${{ github.actor }}
   GHCR_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
 jobs:
-  build-gsipct-steam-ark-survival-evolved:
+  build-emdm-php-fpm-81-src:
     runs-on: ubuntu-latest
     steps:
       - name: 检出代码
@@ -29,21 +30,21 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: 构建 gsipct-steam-ark-survival-evolved 镜像
+      - name: 构建 emdm-php-fpm-81-src 镜像
         uses: docker/build-push-action@v2
         with:
-          context: gsipct/steam/ark-survival-evolved
-          file: gsipct/steam/ark-survival-evolved/Dockerfile
+          context: emdm/php-fpm
+          file: emdm/php-fpm/Dockerfile-php-fpm-81-src
           push: true
-          tags: ghcr.io/kitkat-starter/gsipct-steam:ark-survival-evolved
+          tags: ghcr.io/kitkat-starter/suck:php-fpm-81-src
   sync-back:
     runs-on: ubuntu-latest
     needs:
-      - build-gsipct-steam-ark-survival-evolved
+      - build-emdm-php-fpm-81-src
     steps:
       - name: 检出代码
         uses: actions/checkout@v2
       - name: 准备同步工具
         run: bash ./sync-tool/tools.sh
       - name: 搬回国内
-        run: ./image-syncer -r 5 --proc 16 --auth ./sync-tool/auth.json --images gsipct/steam/ark-survival-evolved/ark-survival-evolved.yml
+        run: ./image-syncer -r 5 --proc 16 --auth ./sync-tool/auth.json --images emdm/php-fpm/php-fpm-81-src.yml
