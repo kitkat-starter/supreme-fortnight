@@ -70,6 +70,12 @@ install-php-extensions @composer
 addgroup --gid 1000 www
 adduser --disabled-password --gecos "" --uid 1000 --gid 1000 www
 
+# 拷贝并修复 Composer 环境变量
+cp ${SHELL_FOLDER}/bashrc.sh /root/.bashrc
+cp ${SHELL_FOLDER}/bashrc.sh /home/www/.bashrc
+chown root:root /root/.bashrc
+chown www:www /home/www/.bashrc
+
 # 最后清理
 rm /usr/local/bin/install-php-extensions
 rm -rf /var/lib/{apt,dpkg,cache,log}/

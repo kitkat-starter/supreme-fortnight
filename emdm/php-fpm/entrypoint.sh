@@ -1,8 +1,6 @@
 #!/bin/sh
 # 目录Bug修复
 mkdir -p /home/www
-# Composer开始处理
-/usr/bin/composer global install 
 # 刷新系统的CA
 update-ca-certificates
 if [ -z $RUN_AS ];then

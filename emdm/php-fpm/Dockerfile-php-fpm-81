@@ -16,7 +16,6 @@ RUN  --mount=type=bind,target=/context \
 RUN  --mount=type=bind,target=/context \
     bash /context/scripts/runtime-bootstrap.sh
 
-# 添加 PATH 索引
-ENV PATH=$PATH:$HOME/.composer/vendor/bin
+
 ADD entrypoint.sh /entrypoint.sh
 ENTRYPOINT ["bash" ,"/entrypoint.sh" ]
