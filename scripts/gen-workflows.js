@@ -92,6 +92,11 @@ configJson.paths.forEach((config) => {
   // 根据配置文件扫描目录
   const files = klawSync(dockerfileScanPath, { nodir: false });
   files.forEach((filePath) => {
+    // 跳过 archive 目录,如果路径包含 archive 的话
+    if (filePath.path.includes("archive")) {
+      return;
+    }
+
     let filename = filePath.path.split(path.sep).pop();
     // console.log(filePath.stats.isDirectory());
     // console.log(filename);
