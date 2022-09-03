@@ -29,12 +29,13 @@ zip
 # smbclient
 # 网络/协议扩展
 soap
-grpc
+# grpc
 imap
 # 杂项扩展
 intl
 xsl
 # 调试/开发/底层扩展
+swoole
 pcntl
 apcu
 opcache
