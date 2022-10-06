@@ -32,5 +32,5 @@ RUN chmod +x v2ray
 FROM scratch
 COPY --from=builder /v2ray /geoip.dat /geosite.dat /
 COPY --from=builder /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-CMD [ "-config" ,"/etc/v2ray/config.json"] 
+CMD [ "run","-c" ,"/etc/v2ray/config.json"]
 ENTRYPOINT [ "/v2ray" ]
