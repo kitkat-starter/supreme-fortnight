@@ -33,7 +33,7 @@ const buildJob = {
   steps: [
     {
       name: "检出代码",
-      uses: "actions/checkout@v2",
+      uses: "actions/checkout@v3",
     },
     {
       name: "设定 Docker Buildx",
