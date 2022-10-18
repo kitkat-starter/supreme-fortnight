@@ -37,11 +37,11 @@ const buildJob = {
     },
     {
       name: "设定 Docker Buildx",
-      uses: "docker/setup-buildx-action@v1",
+      uses: "docker/setup-buildx-action@v2",
     },
     {
       name: "登陆到 DockerHub",
-      uses: "docker/login-action@v1",
+      uses: "docker/login-action@v2",
       with: {
         registry: "ghcr.io",
         // username: "${{ secrets.HUB_USERNAME }}",
@@ -52,7 +52,7 @@ const buildJob = {
     },
     {
       name: "构建 镜像",
-      uses: "docker/build-push-action@v2",
+      uses: "docker/build-push-action@v3",
       with: {
         context: "",
         file: "",
@@ -68,7 +68,7 @@ const syncJob = {
   steps: [
     {
       name: "检出代码",
-      uses: "actions/checkout@v2",
+      uses: "actions/checkout@v3",
     },
     {
       name: "准备同步工具",
