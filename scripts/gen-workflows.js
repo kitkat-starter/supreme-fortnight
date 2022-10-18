@@ -41,7 +41,7 @@ function genBuildJob(workflowConfig) {
   // console.log(buildJob);
   // 我们要修改一下构建信息
   buildJob.steps.forEach((step) => {
-    if (step.uses == "docker/build-push-action@v2") {
+    if (step.uses == "docker/build-push-action@v3") {
       // 说明找到了
       // console.log("找到了要修改的部分");
       step.with.context = workflowConfig.context;
