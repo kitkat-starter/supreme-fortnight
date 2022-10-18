@@ -21,5 +21,5 @@ RUN cd Yacd-meta && \
 # 最后,组合起来
 FROM alpine
 COPY --from=0 /clash /clash
-COPY --from=1 /Yacd-meta/public /yacd
+# COPY --from=1 /Yacd-meta/public /yacd
 ENTRYPOINT [ "/clash" ]
