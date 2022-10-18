@@ -13,7 +13,7 @@ RUN chmod +x /clash
 FROM node:alpine
 RUN apk update && \
     apk add wget curl unzip tar gzip ca-certificates git
-RUN git clone https://github.com/MetaCubeX/Yacd-meta
+RUN git clone --depth=1 https://github.com/MetaCubeX/Yacd-meta
 RUN cd Yacd-meta && \
     corepack enable && \
     pnpm i && \
