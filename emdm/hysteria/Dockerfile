@@ -1,11 +1,10 @@
 FROM alpine
 RUN apk update && \
     apk add wget curl unzip tar gzip ca-certificates
-RUN curl https://api.github.com/repos/HyNetwork/hysteria/releases/latest \
+RUN curl https://api.github.com/repos/apernet/hysteria/releases/latest \
     | grep browser_download_url \
     | grep linux \
     | grep amd64 \
-    | grep -v tun \
     | cut -d '"' -f 4 \
     | wget -O /hysteria -i -
 RUN chmod +x /hysteria
