@@ -1,10 +1,10 @@
-name: 构建 emdm-percona-mongodb 镜像
+name: 构建 emdm-singbox 镜像
 on:
   push:
     paths:
-      - emdm/percona-mongodb/Dockerfile
-      - emdm/percona-mongodb/entrypoint.sh
-      - .github/workflows/emdm-percona-mongodb.yml
+      - emdm/singbox/Dockerfile
+      - emdm/singbox/entrypoint.sh
+      - .github/workflows/emdm-singbox.yml
   schedule:
     - cron: 30 5 * * 5
   workflow_dispatch: {}
@@ -16,7 +16,7 @@ env:
   GHCR_USERNAME: ${{ github.actor }}
   GHCR_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
 jobs:
-  build-emdm-percona-mongodb:
+  build-emdm-singbox:
     runs-on: ubuntu-latest
     steps:
       - name: 检出代码
@@ -29,21 +29,21 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: 构建 emdm-percona-mongodb 镜像
+      - name: 构建 emdm-singbox 镜像
         uses: docker/build-push-action@v3
         with:
-          context: emdm/percona-mongodb
-          file: emdm/percona-mongodb/Dockerfile
+          context: emdm/singbox
+          file: emdm/singbox/Dockerfile
           push: true
-          tags: ghcr.io/kitkat-starter/suck:percona-mongodb
+          tags: ghcr.io/kitkat-starter/suck:singbox
   sync-back:
     runs-on: ubuntu-latest
     needs:
-      - build-emdm-percona-mongodb
+      - build-emdm-singbox
     steps:
       - name: 检出代码
         uses: actions/checkout@v3
       - name: 准备同步工具
         run: bash ./sync-tool/tools.sh
       - name: 搬回国内
-        run: ./image-syncer -r 5 --proc 16 --auth ./sync-tool/auth.json --images emdm/percona-mongodb/percona-mongodb.yml
+        run: ./image-syncer -r 5 --proc 16 --auth ./sync-tool/auth.json --images emdm/singbox/singbox.yml
