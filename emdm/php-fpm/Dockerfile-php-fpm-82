@@ -1,0 +1,21 @@
+FROM php:8.2-fpm AS builder
+
+WORKDIR /context
+RUN  --mount=type=bind,target=/context \
+    bash /context/scripts/install-bootstrap.sh
+
+# 只安装需要的东西
+# FROM php:8.1-fpm AS run
+
+# # 拷贝编译好的扩展
+# COPY --from=0 /usr/local/lib/php/extensions /usr/local/lib/php/extensions
+# COPY --from=0 /usr/local/etc/php/conf.d /usr/local/etc/php/conf.d
+# COPY --from=0 /usr/local/lib /tmp/local-lib
+
+# 一句话做好准备
+RUN  --mount=type=bind,target=/context \
+    bash /context/scripts/runtime-bootstrap.sh
+
+
+ADD entrypoint.sh /entrypoint.sh
+ENTRYPOINT ["bash" ,"/entrypoint.sh" ]
