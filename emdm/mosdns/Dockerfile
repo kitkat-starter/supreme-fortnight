@@ -24,10 +24,16 @@ RUN curl https://api.github.com/repos/Loyalsoldier/v2ray-rules-dat/releases/late
     | cut -d '"' -f 4 \
     | wget -i -
 RUN unzip mosdns.zip
+
+# 安装 v2dat 解包工具
+FROM golang:alpine as golang
+RUN go install github.com/urlesistiana/v2dat@latest
+
 # 此处为了照顾脚本,没有使用 scratch
 FROM alpine
 COPY --from=builder /mosdns /
 COPY --from=builder /geoip.dat /geosite.dat /usr/share/mosdns/
+COPY --from=golang /go/bin/v2dat /usr/bin/v2dat
 RUN apk update && \
     apk add bash curl ca-certificates bind-tools
 CMD [ "start","-c","/etc/mosdns/config.yaml","-d" ,"/etc/mosdns"]
