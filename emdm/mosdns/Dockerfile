@@ -2,7 +2,7 @@ FROM alpine AS builder
 RUN apk update && \
     apk add wget curl unzip tar gzip ca-certificates
 # 下载 mosdns 本体
-RUN curl https://api.github.com/repos/IrineSistiana/mosdns/releases/latest \
+RUN curl https://api.github.com/repos/IrineSistiana/mosdns/releases/tags/v5.0.1 \
     | grep browser_download_url \
     | grep linux \
     | grep amd64 \
