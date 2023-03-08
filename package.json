@@ -8,6 +8,6 @@
   },
   "scripts": {
     "build": "yarn clean && node scripts/gen-workflows.js && prettier --write .",
-    "clean": "rm -f .github/workflows/*.yml && cp kkp/*.yaml .github/workflows/"
+    "clean": "rm -f .github/workflows/*.yml"
   }
 }
