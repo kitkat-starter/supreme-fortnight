@@ -35,7 +35,7 @@ imap
 intl
 xsl
 # 调试/开发/底层扩展
-swoole
+# swoole
 pcntl
 apcu
 opcache
@@ -67,3 +67,4 @@ strip --strip-unneeded ${PHP_EXTS_DIR}/*.so
 # 删除自动加载
 rm -f /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 rm -f /usr/local/etc/php/conf.d/docker-php-ext-runkit7.ini
+rm -f /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini
