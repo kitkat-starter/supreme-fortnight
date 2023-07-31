@@ -5,6 +5,7 @@
 # ----------------------------------
 FROM ghcr.io/parkervcp/steamcmd:debian
 
+USER root
 
 # 添加一些 Locale
 RUN apt update && apt install -y locales && \
@@ -17,5 +18,6 @@ RUN apt update && apt install -y locales && \
 ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US:en
 
+USER container
 COPY ./entrypoint.sh /entrypoint.sh
 CMD [ "/bin/bash", "/entrypoint.sh" ]
