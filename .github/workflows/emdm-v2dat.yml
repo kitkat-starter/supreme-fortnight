@@ -1,12 +1,12 @@
-name: 构建 gsipct-java-corretto-16 镜像
+name: 构建 emdm-v2dat 镜像
 on:
   push:
     paths:
-      - gsipct/java/Dockerfile-corretto-16
-      - gsipct/java/entrypoint.sh
-      - .github/workflows/gsipct-java-corretto-16.yml
+      - emdm/v2dat/Dockerfile
+      - emdm/v2dat/entrypoint.sh
+      - .github/workflows/emdm-v2dat.yml
   schedule:
-    - cron: 30 9 * * 2
+    - cron: 30 5 * * 5
   workflow_dispatch: {}
 env:
   TKE_USERNAME: ${{ secrets.TKE_USERNAME }}
@@ -16,7 +16,7 @@ env:
   GHCR_USERNAME: ${{ github.actor }}
   GHCR_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
 jobs:
-  build-gsipct-java-corretto-16:
+  build-emdm-v2dat:
     runs-on: ubuntu-latest
     steps:
       - name: 检出代码
@@ -29,21 +29,21 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: 构建 gsipct-java-corretto-16 镜像
+      - name: 构建 emdm-v2dat 镜像
         uses: docker/build-push-action@v3
         with:
-          context: gsipct/java
-          file: gsipct/java/Dockerfile-corretto-16
+          context: emdm/v2dat
+          file: emdm/v2dat/Dockerfile
           push: true
-          tags: ghcr.io/kitkat-starter/gsipct-java:corretto-16
+          tags: ghcr.io/kitkat-starter/suck:v2dat
   sync-back:
     runs-on: ubuntu-latest
     needs:
-      - build-gsipct-java-corretto-16
+      - build-emdm-v2dat
     steps:
       - name: 检出代码
         uses: actions/checkout@v3
       - name: 准备同步工具
         run: bash ./sync-tool/tools.sh
       - name: 搬回国内
-        run: ./image-syncer -r 5 --proc 16 --auth ./sync-tool/auth.json --images gsipct/java/corretto-16.yml
+        run: ./image-syncer -r 5 --proc 16 --auth ./sync-tool/auth.json --images emdm/v2dat/v2dat.yml
