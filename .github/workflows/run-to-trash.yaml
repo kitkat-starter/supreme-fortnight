@@ -1,0 +1,22 @@
+name: run-to-trash
+
+on:
+  schedule:
+    - cron: "5 4 */3 * *"
+  workflow_dispatch: {}
+  # push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: run script
+        working-directory: scripts
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          OWNER: ${{ github.repository_owner }}
+          REPO: ${{ github.event.repository.name }}
+        run: bash delete-runs.sh
