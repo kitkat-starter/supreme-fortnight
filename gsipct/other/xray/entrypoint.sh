@@ -12,8 +12,8 @@ export INTERNAL_IP
 cd /home/container || exit 1
 
 # 输出 Java 版本
-printf "\033[1m\033[33mcontainer@P73R~ \033[0mjava -version\n"
-java -version
+# printf "\033[1m\033[33mcontainer@P73R~ \033[0mjava -version\n"
+# java -version
 
 # Convert all of the "{{VARIABLE}}" parts of the command into the expected shell
 # variable format of "${VARIABLE}" before evaluating the string and automatically
