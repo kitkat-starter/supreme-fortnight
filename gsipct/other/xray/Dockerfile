@@ -1,8 +1,9 @@
 FROM alpine AS builder
 RUN apk update && \
-    apk add wget curl unzip tar gzip ca-certificates
+    apk add wget curl unzip tar gzip ca-certificates jq
 # 下载 Xray 本体
 RUN curl https://api.github.com/repos/XTLS/Xray-core/releases/latest \
+    | jq \
     | grep browser_download_url \
     | grep Xray-linux-64.zip \
     | grep -v dgst \
@@ -13,6 +14,7 @@ RUN unzip Xray-linux-64.zip
 RUN rm -rf geoip.dat geosite.dat
 # 下载额外地区数据库 geoip
 RUN curl https://api.github.com/repos/Loyalsoldier/v2ray-rules-dat/releases/latest \
+    | jq \
     | grep browser_download_url \
     | grep geoip.dat \
     | grep -v sum \
@@ -21,6 +23,7 @@ RUN curl https://api.github.com/repos/Loyalsoldier/v2ray-rules-dat/releases/late
 
 # 下载额外地区数据库
 RUN curl https://api.github.com/repos/Loyalsoldier/v2ray-rules-dat/releases/latest \
+    | jq \
     | grep browser_download_url \
     | grep geosite.dat \
     | grep -v sum \
