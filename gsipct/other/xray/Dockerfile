@@ -12,7 +12,7 @@ RUN unzip Xray-linux-64.zip
 # 清理自带的地区数据库
 RUN rm -rf geoip.dat geosite.dat
 # 下载额外地区数据库 geoip
-RUN curl https://api.github.com/repos/Loyalsoldier/Xray-rules-dat/releases/latest \
+RUN curl https://api.github.com/repos/Loyalsoldier/v2ray-rules-dat/releases/latest \
     | grep browser_download_url \
     | grep geoip.dat \
     | grep -v sum \
@@ -20,7 +20,7 @@ RUN curl https://api.github.com/repos/Loyalsoldier/Xray-rules-dat/releases/lates
     | wget -i -
 
 # 下载额外地区数据库
-RUN curl https://api.github.com/repos/Loyalsoldier/Xray-rules-dat/releases/latest \
+RUN curl https://api.github.com/repos/Loyalsoldier/v2ray-rules-dat/releases/latest \
     | grep browser_download_url \
     | grep geosite.dat \
     | grep -v sum \
