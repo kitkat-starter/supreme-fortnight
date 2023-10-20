@@ -57,6 +57,7 @@ unzip
 wget
 openssl
 git
+sendmail
 )
 # 记得 这里是非交互式
 export DEBIAN_FRONTEND=noninteractive

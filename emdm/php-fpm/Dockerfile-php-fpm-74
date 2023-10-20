@@ -84,6 +84,7 @@ RUN cat /etc/apt/sources.list && \
     libmagickwand-6.q16hdri-6 \
     libpng16-16 \
     libc-client2007e \
+    sendmail \
     # For zip 扩展
     libzip-dev \
     zip \
