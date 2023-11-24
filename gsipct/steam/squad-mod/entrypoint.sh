@@ -72,6 +72,7 @@ fi
 
 # 判断 MOD_IDS 是否存在
 # 输入是一堆用逗号分割的数字
+MOD_PATH=/home/container/SquadGame/Plugins/Mods
 if [ -z ${MOD_IDS} ]; then
     echo "存在Mod ID 要下载 Mod"
     # 将逗号分割转为数组
@@ -80,8 +81,13 @@ if [ -z ${MOD_IDS} ]; then
     for MOD_ID in ${MOD_IDS}; do
         echo "安装 Mod: ${MOD_ID}"
         ./steamcmd/steamcmd.sh +force_install_dir /home/container +login anonymous +app_update 403240 validate +workshop_download_item 393380 ${MOD_ID} +quit
+        # 先删除原来的 Mod
+        rm -rf ${MOD_PATH}/${MOD_ID}/*
+        # 然后要拷贝位置
+        cp -r /home/container/steamapps/workshop/content/393380/${MOD_ID}/* ${MOD_PATH}/${MOD_ID}
     done
 fi
+
 
 ## if auto_update is not set or to 1 update
 if [ -z ${AUTO_UPDATE} ] || [ "${AUTO_UPDATE}" == "1" ]; then 
