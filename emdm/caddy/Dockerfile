@@ -9,7 +9,8 @@ RUN xcaddy build \
     --with github.com/sjtug/caddy2-filter@master \
     --with github.com/caddy-dns/tencentcloud \
     --with github.com/caddy-dns/cloudflare \
-    --with github.com/caddy-dns/alidns
+    --with github.com/caddy-dns/alidns \
+    --with github.com/caddyserver/cache-handler
 RUN chmod +x caddy
 # 第二阶段,只有二进制文件
 FROM alpine
