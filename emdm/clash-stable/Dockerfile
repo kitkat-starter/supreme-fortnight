@@ -8,10 +8,11 @@ RUN curl https://api.github.com/repos/MetaCubeX/mihomo/releases/latest \
     | grep amd64 \
     | grep -v compatible \
     | grep -v cgo \
+    | grep -v go120 \
     | cut -d '"' -f 4 \
-    | wget -O /clash.gz -i -
-RUN gzip -d /clash.gz
-RUN chmod +x /clash
+    | wget -O /mihomo.gz -i -
+RUN gzip -d /mihomo.gz
+RUN chmod +x /mihomo
 
 # 下载前端
 FROM node:alpine
@@ -20,6 +21,6 @@ RUN apk update && \
 RUN git clone https://github.com/metacubex/metacubexd.git -b gh-pages /yacd
 # 最后,组合起来
 FROM alpine
-COPY --from=0 /clash /clash
+COPY --from=0 /mihomo /mihomo
 COPY --from=1 /yacd /yacd
-ENTRYPOINT [ "/clash" ]
+ENTRYPOINT [ "/mihomo" ]
