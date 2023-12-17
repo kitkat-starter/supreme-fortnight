@@ -73,7 +73,7 @@ fi
 # 判断 MOD_IDS 是否存在
 # 输入是一堆用逗号分割的数字
 MOD_PATH=/home/container/SquadGame/Plugins/Mods
-if [ -z ${MOD_IDS} ]; then
+if [ -n ${MOD_IDS} ]; then
     echo "存在Mod ID 要下载 Mod"
     # 将逗号分割转为数组
     MOD_IDS=$(echo ${MOD_IDS} | tr ',' '\n' | tr -d '\n' | tr -d '\r')
