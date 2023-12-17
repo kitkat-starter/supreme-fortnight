@@ -76,9 +76,10 @@ MOD_PATH=/home/container/SquadGame/Plugins/Mods
 if [ -n ${MOD_IDS} ]; then
     echo "存在Mod ID 要下载 Mod"
     # 将逗号分割转为数组
-    MOD_IDS=$(echo ${MOD_IDS} | tr ',' '\n' | tr -d '\n' | tr -d '\r')
+    # MOD_IDS=$(echo ${MOD_IDS} | tr ',' '\n' | tr -d '\n' | tr -d '\r')
+    MOD_IDS=(${MOD_IDS//,/ })
     # 遍历数组,并调用安装命令
-    for MOD_ID in ${MOD_IDS}; do
+    for MOD_ID in ${MOD_IDS[@]}; do
         echo "安装 Mod: ${MOD_ID}"
         ./steamcmd/steamcmd.sh +force_install_dir /home/container +login anonymous +app_update 403240 validate +workshop_download_item 393380 ${MOD_ID} +quit
         # 先删除原来的 Mod
