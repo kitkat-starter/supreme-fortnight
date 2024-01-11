@@ -6,13 +6,13 @@ RUN curl https://api.github.com/repos/fatedier/frp/releases/latest \
     | grep browser_download_url \
     | grep _linux_amd64.tar.gz \
     | cut -d '"' -f 4 \
-    | wget -i -
-RUN tar xvzf frp_*_linux_amd64.tar.gz --strip-components=1
+    | wget -O frp.tar.gz -i -
+RUN tar xvzf frp.tar.gz --strip-components=1
 
 # 提取二进制
-RUN mkdir frp-bin && \
-    mv frpc ./frp-bin/ && \
-    mv frps ./frp-bin/
+RUN mkdir /frp-bin && \
+    mv frpc /frp-bin/ && \
+    mv frps /frp-bin/
 
 
 # 第二阶段,只有二进制文件

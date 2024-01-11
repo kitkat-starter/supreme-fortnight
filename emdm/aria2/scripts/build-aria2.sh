@@ -14,7 +14,7 @@ fi
 
 git config --global http.sslVerify false
 # 下载源码与打补丁
-ARIA2_VER=1.36.0
+ARIA2_VER=1.37.0
 # wget https://github.com/aria2/aria2/archive/refs/tags/release-${ARIA2_VER}.zip
 GIT_CURL_VERBOSE=1 GIT_TRACE=1 git clone https://github.com/aria2/aria2/
 cd aria2
@@ -43,7 +43,7 @@ autoreconf --install
     --with-libz \
     --with-libcares \
     --with-libexpat \
-    --with-libxml2 \
+    --without-libxml2 \
     --without-libgcrypt \
     --with-openssl \
     --without-libnettle \
@@ -51,7 +51,7 @@ autoreconf --install
     --without-libgmp \
     --with-libssh2 \
     --with-sqlite3 \
-    --without-jemalloc \
+    --with-jemalloc \
     --with-ca-bundle='/etc/ssl/certs/ca-certificates.crt' \
     ARIA2_STATIC=yes \
     --disable-shared
