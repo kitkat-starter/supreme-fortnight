@@ -10,12 +10,6 @@ set -ex
 # fi
 DOWNLOADER="wget -c"
 
-# 记得
-if [ "${DEBUG_BUILD}" = "true" ]; then
-  export https_proxy=${PROXY_STAGING}
-  export HTTPS_PROXY=${PROXY_STAGING}
-fi
-
 # 精心挑选的依赖
 ZLIB=https://www.zlib.net/zlib-1.3.tar.gz
 OPENSSL=https://www.openssl.org/source/openssl-1.1.1k.tar.gz
@@ -148,6 +142,7 @@ BUILD_JEMALLOC() {
         --enable-prof
     make -j$(nproc)
     make install
+    cd ..
 }
 
 BUILD_ZLIB

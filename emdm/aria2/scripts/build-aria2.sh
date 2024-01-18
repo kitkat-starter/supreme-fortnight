@@ -2,16 +2,6 @@
 set -ex
 echo "接下来构建 aria2 本体!"
 
-if [ "${DEBUG_BUILD}" = "true" ]; then
-    git config --global https.proxy ${PROXY_STAGING}
-    # sed -i 's/deb.debian.org/mirrors.sustech.edu.cn/g' /etc/apt/sources.list
-    # sed -i 's|security.debian.org/debian-security|mirrors.sustech.edu.cn/debian-security|g' /etc/apt/sources.list
-    # sed -i 's/http:/https:/g' /etc/apt/sources.list
-    # sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
-    export https_proxy=${PROXY_STAGING}
-    export HTTPS_PROXY=${PROXY_STAGING}
-fi
-
 git config --global http.sslVerify false
 # 下载源码与打补丁
 ARIA2_VER=1.37.0
