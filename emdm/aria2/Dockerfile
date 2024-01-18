@@ -1,11 +1,5 @@
 # 第一阶段,用来构建
 FROM alpine AS build
-# 用于开启调试模式
-ARG DEBUG_BUILD
-ENV DEBUG_BUILD=$DEBUG_BUILD
-# 开启代理
-ARG PROXY
-ENV PROXY_STAGING=$PROXY
 RUN apk add \
     bash \
     wget \
