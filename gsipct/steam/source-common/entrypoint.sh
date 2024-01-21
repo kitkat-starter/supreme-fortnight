@@ -91,5 +91,11 @@ fi
 MODIFIED_STARTUP=$(echo ${STARTUP} | sed -e 's/{{/${/g' -e 's/}}/}/g')
 echo -e ":/home/container$ ${MODIFIED_STARTUP}"
 
+# 如果开启了 ENABLE_KSM
+if [ "${ENABLE_KSM}" == "1" ]; then
+    # 预加载 LD_PRELOAD
+    export LD_PRELOAD="/libksm_preload.so"
+fi
+
 # Run the Server
 eval ${MODIFIED_STARTUP}
