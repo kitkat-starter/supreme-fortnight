@@ -3,7 +3,18 @@
 # Game: SteamCMD Debian
 # Minimum Panel Version: 0.7.0
 # ----------------------------------
-FROM ghcr.io/parkervcp/steamcmd:debian
+FROM ghcr.io/parkervcp/steamcmd:debian as build
+
+RUN apt update && apt install build-essentials cmake cmake-extras -y
+WORKDIR /
+RUN git clone https://github.com/unbrice/ksm_preload
+RUN cd ksm_preload && \
+    mkdir build && \
+    cd build && \
+    cmake .. && \
+    make -j$(nproc)
+
+FROM ghcr.io/parkervcp/steamcmd:debian as target
 
 USER root
 
@@ -14,6 +25,7 @@ RUN apt update && apt install -y locales && \
     locale-gen && \
     localedef -i en_US -f UTF-8 en_US.UTF-8 && \
     rm -rf /var/lib/apt/lists/*
+COPY --from=build /ksm_preload/build/libksm_preload.so /libksm_preload.so
 
 ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US:en
