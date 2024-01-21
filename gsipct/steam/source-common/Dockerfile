@@ -4,8 +4,8 @@
 # Minimum Panel Version: 0.7.0
 # ----------------------------------
 FROM ghcr.io/parkervcp/steamcmd:debian as build
-
-RUN apt update && apt install build-essentials cmake cmake-extras -y
+USER root
+RUN apt update && apt install build-essential cmake cmake-extras git -y
 WORKDIR /
 RUN git clone https://github.com/unbrice/ksm_preload
 RUN cd ksm_preload && \
