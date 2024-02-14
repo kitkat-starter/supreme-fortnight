@@ -7,7 +7,7 @@ RUN curl https://api.github.com/repos/XIU2/SNIProxy/releases/latest \
     | grep linux \
     | cut -d '"' -f 4 \
     | wget -O /sniproxy.tar.gz -i -
-RUN tar -xvzf sniproxy.tar.gz
+RUN tar -xvzf /sniproxy.tar.gz
 RUN chmod +x /sniproxy
 # 第二阶段,只有二进制文件
 FROM alpine
