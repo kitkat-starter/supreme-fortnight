@@ -68,7 +68,7 @@ const syncJob = {
   steps: [
     {
       name: "检出代码",
-      uses: "actions/checkout@v5",
+      uses: "actions/checkout@v4",
     },
     {
       name: "准备同步工具",
