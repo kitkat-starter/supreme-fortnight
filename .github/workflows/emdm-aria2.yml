@@ -30,13 +30,13 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: 构建 镜像
+      - name: 构建 emdm-aria2 镜像
         uses: docker/build-push-action@v5
         with:
-          context: ""
-          file: ""
+          context: emdm/aria2
+          file: emdm/aria2/Dockerfile
           push: true
-          tags: ""
+          tags: ghcr.io/kitkat-starter/suck:aria2
   sync-back:
     runs-on: ubuntu-latest
     needs:
