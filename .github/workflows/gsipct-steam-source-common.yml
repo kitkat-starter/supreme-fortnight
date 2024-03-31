@@ -29,13 +29,13 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: 构建 镜像
+      - name: 构建 gsipct-steam-source-common 镜像
         uses: docker/build-push-action@v5
         with:
-          context: ""
-          file: ""
+          context: gsipct/steam/source-common
+          file: gsipct/steam/source-common/Dockerfile
           push: true
-          tags: ""
+          tags: ghcr.io/kitkat-starter/gsipct-steam:source-common
   sync-back:
     runs-on: ubuntu-latest
     needs:

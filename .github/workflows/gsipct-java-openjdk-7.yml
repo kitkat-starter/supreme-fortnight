@@ -29,13 +29,13 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: 构建 镜像
+      - name: 构建 gsipct-java-openjdk-7 镜像
         uses: docker/build-push-action@v5
         with:
-          context: ""
-          file: ""
+          context: gsipct/java
+          file: gsipct/java/Dockerfile-openjdk-7
           push: true
-          tags: ""
+          tags: ghcr.io/kitkat-starter/gsipct-java:openjdk-7
   sync-back:
     runs-on: ubuntu-latest
     needs:
