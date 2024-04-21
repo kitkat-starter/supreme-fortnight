@@ -11,9 +11,12 @@ RUN cd coredns && \
     sh ./getsrc.sh && \
     go build
 
-FROM alpine AS runner
+RUN go install -ldflags="-s -w -X main.version=release" github.com/natesales/q@latest
 
+
+FROM alpine AS runner
 RUN apk update && \
-    apk add bash curl ca-certificates bind-tools
+    apk add bash curl ca-certificates
 COPY --from=builder /workspace/coredns/coredns /coredns
+COPY --from=builder /go/bin/q /usr/bin/
 ENTRYPOINT [ "/coredns" ]
