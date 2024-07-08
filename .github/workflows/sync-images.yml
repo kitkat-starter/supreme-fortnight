@@ -1,0 +1,45 @@
+name: 同步容器镜像
+
+# 触发条件：在 push 到 master 分支后
+on:
+  push:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "0 */4 * * *"
+env:
+  TKE_USERNAME: ${{ secrets.TKE_USERNAME }}
+  TKE_PASSWORD: ${{ secrets.TKE_PASSWORD }}
+  # ACR_USERNAME: ${{ secrets.ACR_USERNAME }}
+  # ACR_PASSWORD: ${{ secrets.ACR_PASSWORD }}
+  HUB_USERNAME: ${{ secrets.HUB_USERNAME }}
+  HUB_PASSWORD: ${{ secrets.HUB_PASSWORD }}
+
+# 任务
+jobs:
+  sync-images-p37:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+      - name: 准备同步工具
+        run: bash ./tools.sh
+      - name: 同步 p37 镜像
+        run: ./image-syncer -r 5 --proc 20 --auth auth.json --images sync/p37.yml
+  sync-images-gitlab:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+      - name: 准备同步工具
+        run: bash ./tools.sh
+      - name: 同步 GitLab 镜像
+        run: ./image-syncer -r 5 --proc 20 --auth auth.json --images sync/gitlab.yml
+  sync-images-other:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+      - name: 准备同步工具
+        run: bash ./tools.sh
+      - name: 同步其他镜像
+        run: ./image-syncer -r 5 --proc 20 --auth auth.json --images sync/other.yml

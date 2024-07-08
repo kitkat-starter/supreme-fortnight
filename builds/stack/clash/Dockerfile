@@ -10,6 +10,8 @@ RUN curl https://api.github.com/repos/MetaCubeX/mihomo/releases/tags/Prerelease-
     | grep -v compatible \
     | grep -v cgo \
     | grep -v go120 \
+    | grep -v deb \
+    | grep -v rpm \
     | cut -d '"' -f 4 \
     | wget -O /mihomo.gz -i -
 RUN gzip -d /mihomo.gz

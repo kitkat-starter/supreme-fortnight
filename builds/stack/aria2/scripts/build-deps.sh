@@ -15,7 +15,7 @@ ZLIB=https://www.zlib.net/zlib-1.3.1.tar.gz
 OPENSSL=https://www.openssl.org/source/openssl-1.1.1k.tar.gz
 EXPAT=https://github.com/libexpat/libexpat/releases/download/R_2_5_0/expat-2.5.0.tar.bz2
 SQLITE3=https://www.sqlite.org/2023/sqlite-autoconf-3430100.tar.gz
-C_ARES=https://c-ares.org/download/c-ares-1.19.1.tar.gz
+C_ARES=https://github.com/c-ares/c-ares/releases/download/v1.32.1/c-ares-1.32.1.tar.gz
 SSH2=https://libssh2.org/download/libssh2-1.11.0.tar.bz2
 JEMALLOC='https://github.com/jemalloc/jemalloc/releases/download/5.2.1/jemalloc-5.2.1.tar.bz2'
 
