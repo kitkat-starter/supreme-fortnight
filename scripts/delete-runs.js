@@ -9,17 +9,17 @@ module.exports = async ({ github, context, core }) => {
       repo: context.repo.repo,
       owner: context.repo.owner,
       per_page: 100,
-    }
+    },
   );
   actionRuns.data.workflow_runs.forEach(async (run) => {
-    console.log(`清理 ${run.id}`);
+    console.log(`删除 Action 运行 ${run.id}`);
     const response = await github.request(
       `DELETE /repos/{owner}/{repo}/actions/runs/{run_id}`,
       {
         run_id: run.id,
         repo: context.repo.repo,
         owner: context.repo.owner,
-      }
+      },
     );
     console.log(`删除 ${run.id} 的结果: ${response.status}`);
   });
