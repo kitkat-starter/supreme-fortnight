@@ -7,7 +7,7 @@
     "yaml": "^1.10.2"
   },
   "scripts": {
-    "build": "pnpm run clean && node scripts/gen-workflows.js && prettier --write .",
+    "build": "bun run clean && node scripts/gen-workflows.js && prettier --write .",
     "clean": "rm -f .github/workflows/*.yml"
   },
   "devDependencies": {

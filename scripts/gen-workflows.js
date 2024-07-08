@@ -175,3 +175,11 @@ configJson.paths.forEach((config) => {
     }
   });
 });
+
+// 拷贝 path.dirname(__filename)/flows 下面的所有文件到 .github/workflows
+const flowsPath = path.join(path.dirname(__filename), "flows");
+const flowsFiles = fs.readdirSync(flowsPath);
+flowsFiles.forEach((file) => {
+  console.log(`拷贝 ${file} 到 .github/workflows`);
+  fs.copyFileSync(`${flowsPath}/${file}`, `.github/workflows/${file}`);
+});
