@@ -60,9 +60,8 @@ function genSyncJob(workflowConfig) {
   let syncSteps = syncJob.steps;
   let syncJobLength = syncSteps.length;
   // 修改同步文件路径
-  syncSteps[
-    syncJobLength - 1
-  ].run = `./image-syncer -r 5 --proc 16 --auth ./sync-tool/auth.json --images ${workflowConfig.syncConfigFile}`;
+  syncSteps[syncJobLength - 1].run =
+    `./image-syncer -r 5 --proc 16 --auth ./sync-tool/auth.json --images ${workflowConfig.syncConfigFile}`;
   // console.log(syncSteps[syncJobLength - 1]);
   return syncJob;
 }
@@ -88,7 +87,7 @@ let configJson = JSON.parse(configJsonStr);
 configJson.paths.forEach((config) => {
   // console.log(path);
   let dockerfileScanPath = path.join(process.cwd(), config.path);
-  // console.log(scanPath);
+  // console.log(dockerfileScanPath);
   // 根据配置文件扫描目录
   const files = klawSync(dockerfileScanPath, { nodir: false });
   files.forEach((filePath) => {
@@ -161,7 +160,7 @@ configJson.paths.forEach((config) => {
       workflowMain.jobs[buildJobName] = buildJob;
       workflowMain.jobs["sync-back"] = syncJob;
       // 序列化
-      YAML.scalarOptions.str.fold.lineWidth = 0;
+      // YAML.scalarOptions.str.fold.lineWidth = 0;
       let workflowFileStr = YAML.stringify(workflowMain);
       let syncConfigStr = YAML.stringify(syncConfig);
       // fs.writeFileSync(

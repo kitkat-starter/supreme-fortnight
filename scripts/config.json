@@ -1,8 +1,8 @@
 {
   "paths": [
     {
-      "path": "emdm",
-      "registry": "ghcr.io/kitkat-starter/suck",
+      "path": "builds/stack",
+      "registry": "ghcr.io/kitkat-starter/stack",
       "mirror": "ccr.ccs.tencentyun.com/karasu/stck",
       "schedule": [
         {
@@ -12,34 +12,12 @@
       "extraScanFiles": ["php-fpm/scripts/*", "aria2/scripts/*"]
     },
     {
-      "path": "gsipct/java",
-      "registry": "ghcr.io/kitkat-starter/gsipct-java",
+      "path": "builds/pter-java",
+      "registry": "ghcr.io/kitkat-starter/pter-java",
       "mirror": "ccr.ccs.tencentyun.com/cpdd/jva",
       "schedule": [
         {
           "cron": "30 9 * * 2"
-        }
-      ],
-      "extraScanFiles": []
-    },
-    {
-      "path": "gsipct/other",
-      "registry": "ghcr.io/kitkat-starter/gsipct-other",
-      "mirror": "ccr.ccs.tencentyun.com/cpdd/oth",
-      "schedule": [
-        {
-          "cron": "45 10 * * 2"
-        }
-      ],
-      "extraScanFiles": []
-    },
-    {
-      "path": "gsipct/steam",
-      "registry": "ghcr.io/kitkat-starter/gsipct-steam",
-      "mirror": "ccr.ccs.tencentyun.com/cpdd/stm",
-      "schedule": [
-        {
-          "cron": "15 6 5 * *"
         }
       ],
       "extraScanFiles": []

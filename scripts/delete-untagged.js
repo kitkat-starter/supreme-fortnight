@@ -8,17 +8,17 @@ module.exports = async ({ github, context, core }) => {
   });
   respPackages.data.forEach(async (pack) => {
     const packName = pack.name;
-    console.log(`清理 ${packName}`);
+    console.log(`清理包 ${packName}`);
     const response = await github.request(
       `GET /orgs/${context.repo.owner}/packages/container/${packName}/versions`,
-      { per_page: 100 }
+      { per_page: 100 },
     );
     response.data.forEach(async (version) => {
       if (version.metadata.container.tags.length == 0) {
         console.log(`删除 ${version.id}`);
         const deleteResponse = await github.request(
           `DELETE /orgs/${context.repo.owner}/packages/container/${packName}/versions/${version.id}`,
-          {}
+          {},
         );
         console.log(`删除 ${version.id} 的结果: ${deleteResponse.status}`);
       }
