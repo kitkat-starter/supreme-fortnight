@@ -9,5 +9,8 @@
   "scripts": {
     "build": "pnpm run clean && node scripts/gen-workflows.js && prettier --write .",
     "clean": "rm -f .github/workflows/*.yml"
+  },
+  "devDependencies": {
+    "@types/github-script": "github:actions/github-script"
   }
 }
