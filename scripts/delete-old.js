@@ -32,7 +32,6 @@ module.exports = async ({ github, context, core }) => {
         `DELETE /orgs/${context.repo.owner}/packages/container/${packName}/versions/${version.id}`,
         {},
       );
-
     });
   });
 };
