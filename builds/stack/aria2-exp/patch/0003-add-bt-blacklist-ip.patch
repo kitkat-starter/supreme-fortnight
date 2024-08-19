@@ -1,0 +1,115 @@
+diff --git a/src/ActivePeerConnectionCommand.cc b/src/ActivePeerConnectionCommand.cc
+index 7e566b42..05ccc537 100644
+--- a/src/ActivePeerConnectionCommand.cc
++++ b/src/ActivePeerConnectionCommand.cc
+@@ -133,6 +133,15 @@ void ActivePeerConnectionCommand::makeNewConnections(int num)
+   for (; num && peerStorage_->isPeerAvailable(); --num) {
+     cuid_t ncuid = e_->newCUID();
+     std::shared_ptr<Peer> peer = peerStorage_->checkoutPeer(ncuid);
++    // 在这里检查 IP
++    if (bittorrent::isIpInList(peer->getIPAddress(),requestGroup_->getOption()))
++    {
++      A2_LOG_INFO(
++        fmt("CUID#%" PRId64 " - 拒绝连接到 %s 因为在黑名单中", getCuid(), peer->getIPAddress().c_str()));
++      peerStorage_->addBadPeer(peer->getIPAddress());
++      break;
++    }
++    
+     // sanity check
+     if (!peer) {
+       break;
+diff --git a/src/OptionHandlerFactory.cc b/src/OptionHandlerFactory.cc
+index 000426b6..8917ee4d 100644
+--- a/src/OptionHandlerFactory.cc
++++ b/src/OptionHandlerFactory.cc
+@@ -1680,6 +1680,15 @@ std::vector<OptionHandler*> OptionHandlerFactory::createOptionHandlers()
+     op->setChangeOptionForReserved(true);
+     handlers.push_back(op);
+   }
++  {
++    OptionHandler* op(new DefaultOptionHandler(PREF_BT_BLACKLIST_IP, TEXT_BT_BLACKLIST_IP,
++                                               NO_DESCRIPTION, "IP,..."));
++    op->addTag(TAG_BITTORRENT);
++    op->setInitialOption(true);
++    op->setChangeGlobalOption(true);
++    op->setChangeOptionForReserved(true);
++    handlers.push_back(op);
++  }
+   {
+     OptionHandler* op(new NumberOptionHandler(PREF_BT_TRACKER_CONNECT_TIMEOUT,
+                                               TEXT_BT_TRACKER_CONNECT_TIMEOUT,
+diff --git a/src/bittorrent_helper.cc b/src/bittorrent_helper.cc
+index d3df0b4b..dea8ba4e 100644
+--- a/src/bittorrent_helper.cc
++++ b/src/bittorrent_helper.cc
+@@ -1081,6 +1081,16 @@ void adjustAnnounceUri(TorrentAttribute* attrs,
+   addAnnounceUri(attrs, addUris);
+ }
+ 
++// 来一个判断 IP 是否在列表中的函数
++bool isIpInList(const std::string& ip, const std::shared_ptr<Option>& option)
++{
++  // 获取黑名单列表
++  std::vector<std::string> ipList;
++  util::split(option->get(PREF_BT_BLACKLIST_IP).begin(),
++              option->get(PREF_BT_BLACKLIST_IP).end(),
++              std::back_inserter(ipList), ',', true);
++  return std::find(ipList.begin(), ipList.end(), ip) != ipList.end();
++}
+ const char* getModeString(BtFileMode mode)
+ {
+   switch (mode) {
+diff --git a/src/bittorrent_helper.h b/src/bittorrent_helper.h
+index ea1a6277..493f8053 100644
+--- a/src/bittorrent_helper.h
++++ b/src/bittorrent_helper.h
+@@ -337,6 +337,9 @@ int getCompactLength(int family);
+ // Returns textual representation of the |mode|.
+ const char* getModeString(BtFileMode mode);
+ 
++// 返回这个 IP 是否在黑名单
++bool isIpInList(const std::string& ip, const std::shared_ptr<Option>& option);
++
+ // Writes the detailed information about torrent loaded in dctx.
+ template <typename Output>
+ void print(Output& o, const std::shared_ptr<DownloadContext>& dctx)
+diff --git a/src/prefs.cc b/src/prefs.cc
+index 2591b9f0..1c23197d 100644
+--- a/src/prefs.cc
++++ b/src/prefs.cc
+@@ -558,6 +558,8 @@ PrefPtr PREF_ON_BT_DOWNLOAD_COMPLETE = makePref("on-bt-download-complete");
+ // values: string
+ PrefPtr PREF_BT_TRACKER = makePref("bt-tracker");
+ // values: string
++PrefPtr PREF_BT_BLACKLIST_IP = makePref("bt-blacklist-ip");
++// values: string
+ PrefPtr PREF_BT_EXCLUDE_TRACKER = makePref("bt-exclude-tracker");
+ // values: true | false
+ PrefPtr PREF_BT_REMOVE_UNSELECTED_FILE = makePref("bt-remove-unselected-file");
+diff --git a/src/prefs.h b/src/prefs.h
+index 338fd6e6..2235160a 100644
+--- a/src/prefs.h
++++ b/src/prefs.h
+@@ -508,6 +508,8 @@ extern PrefPtr PREF_ON_BT_DOWNLOAD_COMPLETE;
+ // values: string
+ extern PrefPtr PREF_BT_TRACKER;
+ // values: string
++extern PrefPtr PREF_BT_BLACKLIST_IP;
++// values: string
+ extern PrefPtr PREF_BT_EXCLUDE_TRACKER;
+ // values: true | false
+ extern PrefPtr PREF_BT_REMOVE_UNSELECTED_FILE;
+diff --git a/src/usage_text.h b/src/usage_text.h
+index 08715436..4f837bb6 100644
+--- a/src/usage_text.h
++++ b/src/usage_text.h
+@@ -787,6 +787,9 @@
+     "                              affected by --bt-exclude-tracker option because\n" \
+     "                              they are added after URIs in --bt-exclude-tracker\n" \
+     "                              option are removed.")
++#define TEXT_BT_BLACKLIST_IP                                                 \
++  _(" --bt-blacklist-ip=IP[,...]       Comma separated list of additional BitTorrent\n" \
++    "                              blacklist IP.")
+ #define TEXT_BT_EXCLUDE_TRACKER                                         \
+   _(" --bt-exclude-tracker=URI[,...] Comma separated list of BitTorrent tracker's\n" \
+     "                              announce URI to remove. You can use special value\n" \
