@@ -1,5 +1,5 @@
 diff --git a/src/ActivePeerConnectionCommand.cc b/src/ActivePeerConnectionCommand.cc
-index 7e566b42..05ccc537 100644
+index 7e566b42..41e1b8fc 100644
 --- a/src/ActivePeerConnectionCommand.cc
 +++ b/src/ActivePeerConnectionCommand.cc
 @@ -133,6 +133,15 @@ void ActivePeerConnectionCommand::makeNewConnections(int num)
@@ -11,7 +11,7 @@ index 7e566b42..05ccc537 100644
 +    {
 +      A2_LOG_INFO(
 +        fmt("CUID#%" PRId64 " - 拒绝连接到 %s 因为在黑名单中", getCuid(), peer->getIPAddress().c_str()));
-+      peerStorage_->addBadPeer(peer->getIPAddress());
++      // peerStorage_->addBadPeer(peer->getIPAddress());
 +      break;
 +    }
 +    
@@ -38,6 +38,108 @@ index 000426b6..8917ee4d 100644
    {
      OptionHandler* op(new NumberOptionHandler(PREF_BT_TRACKER_CONNECT_TIMEOUT,
                                                TEXT_BT_TRACKER_CONNECT_TIMEOUT,
+diff --git a/src/RequestGroup.cc b/src/RequestGroup.cc
+index fd6801fc..c5e41b33 100644
+--- a/src/RequestGroup.cc
++++ b/src/RequestGroup.cc
+@@ -974,6 +974,23 @@ int RequestGroup::getNumConnection() const
+   return numConnection;
+ }
+ 
++void RequestGroup::disconnectPeersByBlacklist()
++{
++  
++  // 从 PeerStorage 拿
++  for (auto& peer : peerStorage_->getUsedPeers()) {
++    if (!peer->isActive()) {
++      continue;
++    }
++    // 拿出 IP
++    if (bittorrent::isIpInList(peer->getIPAddress(),getOption())) {
++      peerStorage_->returnPeer(peer);
++      A2_LOG_INFO(fmt("CUID#%" PRId64 " - 已断开并拉黑 Peer %s ", gid_, peer->getIPAddress().c_str()));
++    }
++  }
++}
++
++
+ void RequestGroup::increaseNumCommand() { ++numCommand_; }
+ 
+ void RequestGroup::decreaseNumCommand()
+diff --git a/src/RequestGroup.h b/src/RequestGroup.h
+index 6698f93d..fef03292 100644
+--- a/src/RequestGroup.h
++++ b/src/RequestGroup.h
+@@ -310,6 +310,8 @@ public:
+ 
+   int getNumConnection() const;
+ 
++  void disconnectPeersByBlacklist();
++  
+   void increaseNumCommand();
+ 
+   void decreaseNumCommand();
+diff --git a/src/RpcMethodFactory.cc b/src/RpcMethodFactory.cc
+index bafbffd8..f8d553c6 100644
+--- a/src/RpcMethodFactory.cc
++++ b/src/RpcMethodFactory.cc
+@@ -146,6 +146,10 @@ std::unique_ptr<RpcMethod> createMethod(const std::string& methodName)
+   if (methodName == ForcePauseRpcMethod::getMethodName()) {
+     return make_unique<ForcePauseRpcMethod>();
+   }
++    
++  if (methodName == DisconnectPeerByBlacklistRpcMethod::getMethodName()) {
++    return make_unique<DisconnectPeerByBlacklistRpcMethod>();
++  }
+ 
+   if (methodName == PauseAllRpcMethod::getMethodName()) {
+     return make_unique<PauseAllRpcMethod>();
+diff --git a/src/RpcMethodImpl.cc b/src/RpcMethodImpl.cc
+index c2249202..02b34c70 100644
+--- a/src/RpcMethodImpl.cc
++++ b/src/RpcMethodImpl.cc
+@@ -465,6 +465,22 @@ std::unique_ptr<ValueBase> ForcePauseRpcMethod::process(const RpcRequest& req,
+   return pauseDownload(req, e, true);
+ }
+ 
++std::unique_ptr<ValueBase> DisconnectPeerByBlacklistRpcMethod::process(const RpcRequest& req,
++                                                        DownloadEngine* e)
++{
++  // 先取 pid
++  const String* gidParam = checkRequiredParam<String>(req, 0);
++  a2_gid_t gid = str2Gid(gidParam);
++  auto group = e->getRequestGroupMan()->findGroup(gid);
++  if (group) {
++    bool reserved = group->getState() == RequestGroup::STATE_WAITING;
++    group->disconnectPeersByBlacklist();
++    return createGIDResponse(gid);
++  }
++  throw DL_ABORT_EX(
++      fmt("GID#%s 现在还不能断开他的黑名单 Peer", GroupId::toHex(gid).c_str()));
++}
++
+ namespace {
+ template <typename InputIterator>
+ void pauseRequestGroups(InputIterator first, InputIterator last, bool reserved,
+diff --git a/src/RpcMethodImpl.h b/src/RpcMethodImpl.h
+index de6d7685..84ba6eb4 100644
+--- a/src/RpcMethodImpl.h
++++ b/src/RpcMethodImpl.h
+@@ -180,6 +180,14 @@ protected:
+ public:
+   static const char* getMethodName() { return "aria2.pauseAll"; }
+ };
++class DisconnectPeerByBlacklistRpcMethod : public RpcMethod {
++protected:
++  virtual std::unique_ptr<ValueBase> process(const RpcRequest& req,
++                                             DownloadEngine* e) CXX11_OVERRIDE;
++
++public:
++  static const char* getMethodName() { return "aria2.disconnectPeerByBlacklist"; }
++};
+ 
+ class ForcePauseAllRpcMethod : public RpcMethod {
+ protected:
 diff --git a/src/bittorrent_helper.cc b/src/bittorrent_helper.cc
 index d3df0b4b..dea8ba4e 100644
 --- a/src/bittorrent_helper.cc
