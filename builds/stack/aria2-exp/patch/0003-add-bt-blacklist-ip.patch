@@ -1,5 +1,5 @@
 diff --git a/src/ActivePeerConnectionCommand.cc b/src/ActivePeerConnectionCommand.cc
-index 7e566b42..d703794f 100644
+index 7e566b42..bf044da9 100644
 --- a/src/ActivePeerConnectionCommand.cc
 +++ b/src/ActivePeerConnectionCommand.cc
 @@ -133,6 +133,15 @@ void ActivePeerConnectionCommand::makeNewConnections(int num)
@@ -11,7 +11,7 @@ index 7e566b42..d703794f 100644
 +    {
 +      A2_LOG_INFO(
 +        fmt("CUID#%" PRId64 " - 拒绝连接到 %s 因为在黑名单中(活动 Peer 连接)", getCuid(), peer->getIPAddress().c_str()));
-+      // peerStorage_->addBadPeer(peer->getIPAddress());
++      peerStorage_->addBadPeer(peer->getIPAddress());
 +      break;
 +    }
 +    
@@ -88,7 +88,7 @@ index 000426b6..8917ee4d 100644
      OptionHandler* op(new NumberOptionHandler(PREF_BT_TRACKER_CONNECT_TIMEOUT,
                                                TEXT_BT_TRACKER_CONNECT_TIMEOUT,
 diff --git a/src/PeerAbstractCommand.cc b/src/PeerAbstractCommand.cc
-index 6ab8aa77..9fc2907f 100644
+index 6ab8aa77..6c2daf05 100644
 --- a/src/PeerAbstractCommand.cc
 +++ b/src/PeerAbstractCommand.cc
 @@ -47,6 +47,8 @@
@@ -100,19 +100,18 @@ index 6ab8aa77..9fc2907f 100644
  namespace aria2 {
  
  PeerAbstractCommand::PeerAbstractCommand(cuid_t cuid,
-@@ -97,6 +99,16 @@ bool PeerAbstractCommand::execute()
+@@ -97,6 +99,15 @@ bool PeerAbstractCommand::execute()
      if (checkPoint_.difference(global::wallclock()) >= timeout_) {
        throw DL_ABORT_EX(EX_TIME_OUT);
      }
 +    // 在这里检查 IP
-+    if (bittorrent::isIpInList(peer_->getIPAddress(),
-+                               std::shared_ptr<Option>(e_->getOption())))
-+    {
-+      A2_LOG_INFO(
-+        fmt("CUID#%" PRId64 " - 拒绝连接到 %s 因为在黑名单中 (抽象命令)", getCuid(), peer_->getIPAddress().c_str()));
++    if (bittorrent::isIpInList(peer_->getIPAddress(),*e_->getOption())) {
++      A2_LOG_INFO(fmt("CUID#%" PRId64
++                      " - 拒绝连接到 %s 因为在黑名单中 (在抽象命令中)",
++                      getCuid(), peer_->getIPAddress().c_str()));
 +      // peerStorage_->addBadPeer(peer->getIPAddress());
 +      onAbort();
-+      return true;
++      return prepareForNextPeer(0);
 +    }
      return executeInternal();
    }
@@ -131,7 +130,7 @@ index cc77c515..950b3aa1 100644
  
  } // namespace aria2
 diff --git a/src/RequestGroup.cc b/src/RequestGroup.cc
-index fd6801fc..83cc72d2 100644
+index fd6801fc..cf3ef1cf 100644
 --- a/src/RequestGroup.cc
 +++ b/src/RequestGroup.cc
 @@ -974,6 +974,32 @@ int RequestGroup::getNumConnection() const
@@ -140,7 +139,7 @@ index fd6801fc..83cc72d2 100644
  
 +void RequestGroup::disconnectPeersByBlacklist(DownloadEngine* e) const
 +{
-+  A2_LOG_DEBUG(
++  A2_LOG_INFO(
 +      fmt("GID#%" PRId64 " - 现在主动断开 Peer 列表中的黑名单 Peer", gid_))
 +  // 从 PeerStorage 拿
 +  for (auto& peer : peerStorage_->getUsedPeers()) {
@@ -198,10 +197,10 @@ index bafbffd8..1394164c 100644
      return make_unique<PauseAllRpcMethod>();
    }
 diff --git a/src/RpcMethodImpl.cc b/src/RpcMethodImpl.cc
-index c2249202..ca4c8303 100644
+index c2249202..2f3bf527 100644
 --- a/src/RpcMethodImpl.cc
 +++ b/src/RpcMethodImpl.cc
-@@ -465,6 +465,27 @@ std::unique_ptr<ValueBase> ForcePauseRpcMethod::process(const RpcRequest& req,
+@@ -465,6 +465,25 @@ std::unique_ptr<ValueBase> ForcePauseRpcMethod::process(const RpcRequest& req,
    return pauseDownload(req, e, true);
  }
  
@@ -218,18 +217,16 @@ index c2249202..ca4c8303 100644
 +    if (group->getState() == RequestGroup::STATE_ACTIVE) {
 +      group->disconnectPeersByBlacklist(e);
 +    }
-+    return createOKResponse();
++    return createGIDResponse(gid);
 +  }
-+  // else {
-+  //   A2_LOG_WARN(fmt("GID#%s 目前不能断开黑名单 Peer 但是无所谓",
-+  //                   GroupId::toHex(gid).c_str()));
-+  // }
++  // 如果因为各种奇怪原因不能断开,也不用报错
++  return createOKResponse();
 +}
 +
  namespace {
  template <typename InputIterator>
  void pauseRequestGroups(InputIterator first, InputIterator last, bool reserved,
-@@ -1685,6 +1706,14 @@ void changeGlobalOption(const Option& option, DownloadEngine* e)
+@@ -1685,6 +1704,14 @@ void changeGlobalOption(const Option& option, DownloadEngine* e)
      auto& openedFileCounter = e->getRequestGroupMan()->getOpenedFileCounter();
      openedFileCounter->setMaxOpenFiles(option.getAsInt(PREF_BT_MAX_OPEN_FILES));
    }
@@ -264,7 +261,7 @@ index de6d7685..84ba6eb4 100644
  class ForcePauseAllRpcMethod : public RpcMethod {
  protected:
 diff --git a/src/bittorrent_helper.cc b/src/bittorrent_helper.cc
-index d3df0b4b..eb745629 100644
+index d3df0b4b..814fdcd9 100644
 --- a/src/bittorrent_helper.cc
 +++ b/src/bittorrent_helper.cc
 @@ -63,6 +63,8 @@
@@ -276,7 +273,7 @@ index d3df0b4b..eb745629 100644
  namespace aria2 {
  
  namespace bittorrent {
-@@ -1081,6 +1083,17 @@ void adjustAnnounceUri(TorrentAttribute* attrs,
+@@ -1081,6 +1083,29 @@ void adjustAnnounceUri(TorrentAttribute* attrs,
    addAnnounceUri(attrs, addUris);
  }
  
@@ -291,19 +288,34 @@ index d3df0b4b..eb745629 100644
 +              std::back_inserter(ipList), ',', true);
 +  return std::find(ipList.begin(), ipList.end(), ip) != ipList.end();
 +}
++
++// 判断 IP 但是传参改为 const std::string&
++bool isIpInList(const std::string& ip, const Option& option)
++{
++  A2_LOG_WARN(fmt("现在检测 IP %s 是否在黑名单", ip.c_str()))
++  // 获取黑名单列表
++  std::vector<std::string> ipList;
++  util::split(option.get(PREF_BT_BLACKLIST_IP).begin(),
++              option.get(PREF_BT_BLACKLIST_IP).end(),
++              std::back_inserter(ipList), ',', true);
++  return std::find(ipList.begin(), ipList.end(), ip) != ipList.end();
++}
  const char* getModeString(BtFileMode mode)
  {
    switch (mode) {
 diff --git a/src/bittorrent_helper.h b/src/bittorrent_helper.h
-index ea1a6277..493f8053 100644
+index ea1a6277..1f9b242b 100644
 --- a/src/bittorrent_helper.h
 +++ b/src/bittorrent_helper.h
-@@ -337,6 +337,9 @@ int getCompactLength(int family);
+@@ -337,6 +337,12 @@ int getCompactLength(int family);
  // Returns textual representation of the |mode|.
  const char* getModeString(BtFileMode mode);
  
 +// 返回这个 IP 是否在黑名单
 +bool isIpInList(const std::string& ip, const std::shared_ptr<Option>& option);
++
++// 返回该 IP 是否在黑名单,但是传参使用字符串
++bool isIpInList(const std::string& ip, const Option& option);
 +
  // Writes the detailed information about torrent loaded in dctx.
  template <typename Output>
