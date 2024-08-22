@@ -41,6 +41,7 @@ autoreconf --install
     --without-libgmp \
     --with-libssh2 \
     --with-sqlite3 \
+    --enable-bt-blacklist \
     --with-jemalloc \
     --with-ca-bundle='/etc/ssl/certs/ca-certificates.crt' \
     ARIA2_STATIC=yes \
