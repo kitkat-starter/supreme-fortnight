@@ -26,8 +26,6 @@ COPY scripts/build-deps.sh /scripts/build-deps.sh
 RUN bash /scripts/build-deps.sh
 
 # 轮到 Aria2 构建
-COPY scripts/clone-aria2.sh /scripts/clone-aria2.sh
-RUN bash /scripts/clone-aria2.sh
 RUN mkdir /context
 COPY patch /context/patch
 COPY scripts/build-aria2.sh /scripts/build-aria2.sh
