@@ -2,16 +2,11 @@
 set -ex
 echo "接下来构建 aria2 本体!"
 
-# git config --global http.sslVerify false
-# # 下载源码与打补丁
-# ARIA2_VER=1.37.0
-# # wget https://github.com/aria2/aria2/archive/refs/tags/release-${ARIA2_VER}.zip
-# GIT_CURL_VERBOSE=1 GIT_TRACE=1 git clone https://github.com/aria2/aria2/
+
+git clone --depth=1 https://github.com/chisaato/aria2/
 cd aria2
-# git checkout release-$ARIA2_VER
 ls /context/patch
 git apply /context/patch/*
-
 
 # 构建 aria2
 LIBS_PREFIX=/opt/aria2-build-libs
@@ -41,7 +36,7 @@ autoreconf --install
     --without-libgmp \
     --with-libssh2 \
     --with-sqlite3 \
-    --enable-bt-blacklist \
+    --enable-peer-blacklist \
     --with-jemalloc \
     --with-ca-bundle='/etc/ssl/certs/ca-certificates.crt' \
     ARIA2_STATIC=yes \
