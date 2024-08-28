@@ -15,8 +15,8 @@ RUN yum install -y bash curl wget shadow-utils tzdata && \
 
 
 USER container
-ENV  USER container
-ENV  HOME /home/container
+ENV  USER=container
+ENV  HOME=/home/container
 
 WORKDIR /home/container
 
