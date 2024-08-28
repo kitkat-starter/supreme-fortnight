@@ -18,13 +18,17 @@ module.exports = async ({ github, context, core }) => {
 				// 同时 created_at 距离现在大于 14 天
 				// 格式为 2024-08-16T05:37:06Z
 				// 才进入删除
-				if (
-					new Date(version.created_at).getTime() <
-					new Date().getTime() - 14 * 24 * 60 * 60 * 1000
-				) {
+				const createdAt = new Date(version.created_at);
+				const now = new Date();
+				console.log(`${version.id} 的创建时间: ${createdAt}`);
+				console.log(`${version.id} 当前时间: ${now}`);
+				const shouldDelete =
+					createdAt.getTime() < now.getTime() - 14 * 24 * 60 * 60 * 1000;
+				if (!shouldDelete) {
 					console.log(`${version.id} 距离现在还没有超过 14 天,不删除`);
 					return;
 				}
+
 				console.log(`删除 ${version.id}`);
 				const deleteResponse = await github.request(
 					`DELETE /orgs/${context.repo.owner}/packages/container/${packName}/versions/${version.id}`,
