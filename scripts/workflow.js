@@ -58,6 +58,8 @@ const buildJob = {
         file: "",
         push: true,
         tags: "",
+        "cache-from": "type=gha",
+        "cache-to": "type=gha,mode=max",
       },
     },
   ],

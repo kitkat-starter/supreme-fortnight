@@ -37,6 +37,8 @@ jobs:
           file: builds/stack/aria2/Dockerfile
           push: true
           tags: ghcr.io/kitkat-starter/stack:aria2
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
   sync-back:
     runs-on: ubuntu-latest
     needs:
