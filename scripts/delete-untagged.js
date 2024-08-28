@@ -15,7 +15,7 @@ module.exports = async ({ github, context, core }) => {
     );
     response.data.forEach(async (version) => {
       if (version.metadata.container.tags.length == 0) {
-				// 同时 created_at 距离现在大于 30 天
+        // 同时 created_at 距离现在大于 30 天
         // 格式为 2024-08-16T05:37:06Z
         // 才进入删除
         if (
@@ -25,13 +25,13 @@ module.exports = async ({ github, context, core }) => {
           console.log(`${version.id} 距离现在还没有超过 30 天,不删除`);
           return;
         }
-				console.log(`删除 ${version.id}`);
-				const deleteResponse = await github.request(
-					`DELETE /orgs/${context.repo.owner}/packages/container/${packName}/versions/${version.id}`,
-					{}
-				);
-				console.log(`删除 ${version.id} 的结果: ${deleteResponse.status}`);
-			}
+        console.log(`删除 ${version.id}`);
+        const deleteResponse = await github.request(
+          `DELETE /orgs/${context.repo.owner}/packages/container/${packName}/versions/${version.id}`,
+          {},
+        );
+        console.log(`删除 ${version.id} 的结果: ${deleteResponse.status}`);
+      }
     });
   });
 };

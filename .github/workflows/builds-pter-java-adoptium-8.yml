@@ -36,6 +36,8 @@ jobs:
           file: builds/pter-java/Dockerfile-adoptium-8
           push: true
           tags: ghcr.io/kitkat-starter/pter-java:adoptium-8
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
   sync-back:
     runs-on: ubuntu-latest
     needs:

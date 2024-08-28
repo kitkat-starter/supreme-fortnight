@@ -36,6 +36,8 @@ jobs:
           file: builds/pter-java/Dockerfile-openjdk-17
           push: true
           tags: ghcr.io/kitkat-starter/pter-java:openjdk-17
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
   sync-back:
     runs-on: ubuntu-latest
     needs:

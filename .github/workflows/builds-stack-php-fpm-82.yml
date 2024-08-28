@@ -37,6 +37,8 @@ jobs:
           file: builds/stack/php-fpm/Dockerfile-php-fpm-82
           push: true
           tags: ghcr.io/kitkat-starter/stack:php-fpm-82
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
   sync-back:
     runs-on: ubuntu-latest
     needs:

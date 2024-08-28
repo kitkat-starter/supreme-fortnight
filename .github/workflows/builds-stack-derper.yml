@@ -36,6 +36,8 @@ jobs:
           file: builds/stack/derper/Dockerfile
           push: true
           tags: ghcr.io/kitkat-starter/stack:derper
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
   sync-back:
     runs-on: ubuntu-latest
     needs:
