@@ -12,6 +12,6 @@ FROM alpine
 # 最后修复了库问题
 # 直到翼龙关闭CGO编译
 RUN apk update && \
-    apk add ca-certificates
+    apk add ca-certificates curl
 COPY --from=0 /wings /wings
 CMD [ "/wings" ]
