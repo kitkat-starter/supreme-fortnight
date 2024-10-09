@@ -21,7 +21,7 @@ RUN wget https://hub.scgit.top/BiglySoftware/BiglyBT/releases/download/v3.7.0.0/
     chown 1000:1000 $HOME/Desktop/biglybt.desktop
 
 
-RUN echo "/usr/bin/desktop_ready && ${HOME}/biglybt/biglybt &" > $STARTUPDIR/custom_startup.sh \
+RUN echo "/usr/bin/desktop_ready && /usr/local/biglybt/biglybt &" > $STARTUPDIR/custom_startup.sh \
     && chmod +x $STARTUPDIR/custom_startup.sh
 
 
