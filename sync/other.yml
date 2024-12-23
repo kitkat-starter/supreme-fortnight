@@ -1,8 +1,8 @@
 # 其他镜像 腾讯云
-v2fly/v2fly-core:latest: ccr.ccs.tencentyun.com/karasu/sync:v2ray
-portainer/portainer-ce:latest: ccr.ccs.tencentyun.com/karasu/sync:portainer
-requarks/wiki:2: ccr.ccs.tencentyun.com/karasu/sync:wikijs
-pan93412/unblock-netease-music-enhanced:latest: ccr.ccs.tencentyun.com/karasu/sync:unm
+# v2fly/v2fly-core:latest: ccr.ccs.tencentyun.com/karasu/sync:v2ray
+# portainer/portainer-ce:latest: ccr.ccs.tencentyun.com/karasu/sync:portainer
+# requarks/wiki:2: ccr.ccs.tencentyun.com/karasu/sync:wikijs
+# pan93412/unblock-netease-music-enhanced:latest: ccr.ccs.tencentyun.com/karasu/sync:unm
 teddysun/kms:latest: ccr.ccs.tencentyun.com/karasu/sync:kms
 # Bitwarden
 vaultwarden/server:latest: ccr.ccs.tencentyun.com/karasu/sync:vaultwarden
@@ -24,20 +24,20 @@ containrrr/watchtower:latest: ccr.ccs.tencentyun.com/karasu/sync:watchtower
 # redmica/redmica:latest: ccr.ccs.tencentyun.com/karasu/sync:redmica
 # NocoDB
 # Resilio Sync
-resilio/sync:latest: ccr.ccs.tencentyun.com/karasu/sync:resilio-sync
+# resilio/sync:latest: ccr.ccs.tencentyun.com/karasu/sync:resilio-sync
 # Docker 防火墙
-mumblevoip/mumble-server:latest: ccr.ccs.tencentyun.com/karasu/sync:mumble-server
+# mumblevoip/mumble-server:latest: ccr.ccs.tencentyun.com/karasu/sync:mumble-server
 # NetMaker
 # Aria2 Pro
-p3terx/ariang:latest: ccr.ccs.tencentyun.com/karasu/sync:ariang
+# p3terx/ariang:latest: ccr.ccs.tencentyun.com/karasu/sync:ariang
 
 # LCPP 外部镜像 腾讯云
-caddy:latest: ccr.ccs.tencentyun.com/karasu/sync:caddy
-percona/percona-server:8.0: ccr.ccs.tencentyun.com/karasu/sync:percona-mysql-8
-redis:latest: ccr.ccs.tencentyun.com/karasu/sync:redis
-neilpang/acme.sh:latest: ccr.ccs.tencentyun.com/karasu/sync:acmesh
+# caddy:latest: ccr.ccs.tencentyun.com/karasu/sync:caddy
+# percona/percona-server:8.0: ccr.ccs.tencentyun.com/karasu/sync:percona-mysql-8
+# redis:latest: ccr.ccs.tencentyun.com/karasu/sync:redis
+# neilpang/acme.sh:latest: ccr.ccs.tencentyun.com/karasu/sync:acmesh
 # postgres:13: ccr.ccs.tencentyun.com/karasu/sync:postgres-13
-postgres:14: ccr.ccs.tencentyun.com/karasu/sync:postgres-14
-postgres:15: ccr.ccs.tencentyun.com/karasu/sync:postgres-15
-postgres:16: ccr.ccs.tencentyun.com/karasu/sync:postgres-16
-mcuadros/ofelia:latest: ccr.ccs.tencentyun.com/karasu/sync:ofelia
+# postgres:14: ccr.ccs.tencentyun.com/karasu/sync:postgres-14
+# postgres:15: ccr.ccs.tencentyun.com/karasu/sync:postgres-15
+# postgres:16: ccr.ccs.tencentyun.com/karasu/sync:postgres-16
+# mcuadros/ofelia:latest: ccr.ccs.tencentyun.com/karasu/sync:ofelia

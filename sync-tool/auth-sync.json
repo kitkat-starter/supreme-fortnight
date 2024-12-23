@@ -1,0 +1,38 @@
+{
+  "ccr.ccs.tencentyun.com": {
+    "username": "${TKE_USERNAME}",
+    "password": "${TKE_PASSWORD}"
+  },
+  "registry.cn-shenzhen.aliyuncs.com": {
+    "username": "${ACR_USERNAME}",
+    "password": "${ACR_PASSWORD}"
+  },
+  "registry.cn-hangzhou.aliyuncs.com": {
+    "username": "${ACR_USERNAME}",
+    "password": "${ACR_PASSWORD}"
+  },
+  "registry.cn-shanghai.aliyuncs.com": {
+    "username": "${ACR_USERNAME}",
+    "password": "${ACR_PASSWORD}"
+  },
+  "registry.cn-beijing.aliyuncs.com": {
+    "username": "${ACR_USERNAME}",
+    "password": "${ACR_PASSWORD}"
+  },
+  "registry.cn-zhangjiakou.aliyuncs.com": {
+    "username": "${ACR_USERNAME}",
+    "password": "${ACR_PASSWORD}"
+  },
+  "registry.cn-huhehaote.aliyuncs.com": {
+    "username": "${ACR_USERNAME}",
+    "password": "${ACR_PASSWORD}"
+  },
+  "registry.cn-chengdu.aliyuncs.com": {
+    "username": "${ACR_USERNAME}",
+    "password": "${ACR_PASSWORD}"
+  },
+  "registry.hub.docker.com": {
+    "username": "${HUB_USERNAME}",
+    "password": "${HUB_PASSWORD}"
+  }
+}

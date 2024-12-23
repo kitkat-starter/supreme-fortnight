@@ -24,16 +24,7 @@ jobs:
       - name: 准备同步工具
         run: bash ./sync-tool/tools.sh
       - name: 同步 p37 镜像
-        run: ./image-syncer -r 5 --proc 20 --auth ./sync-tool/auth.json --images sync/p37.yml
-  sync-images-gitlab:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 检出代码
-        uses: actions/checkout@v4
-      - name: 准备同步工具
-        run: bash ./sync-tool/tools.sh
-      - name: 同步 GitLab 镜像
-        run: ./image-syncer -r 5 --proc 20 --auth ./sync-tool/auth.json --images sync/gitlab.yml
+        run: ./image-syncer -r 5 --proc 20 --auth ./sync-tool/auth-sync.json --images sync/p37.yml
   sync-images-other:
     runs-on: ubuntu-latest
     steps:
@@ -42,4 +33,4 @@ jobs:
       - name: 准备同步工具
         run: bash ./sync-tool/tools.sh
       - name: 同步其他镜像
-        run: ./image-syncer -r 5 --proc 20 --auth ./sync-tool/auth.json --images sync/other.yml
+        run: ./image-syncer -r 5 --proc 20 --auth ./sync-tool/auth-sync.json --images sync/other.yml
