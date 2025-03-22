@@ -4,7 +4,8 @@ on:
     - cron: "5 4 * * *"
   workflow_dispatch: {}
   push:
-
+permissions:
+  actions: write
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -16,7 +17,7 @@ jobs:
         env:
           SHA: "${{env.parentSHA}}"
         with:
-          github-token: ${{ secrets.GH_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const script = require('./scripts/delete-runs.js')
             await script({github, context, core})
