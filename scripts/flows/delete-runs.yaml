@@ -17,7 +17,7 @@ jobs:
         env:
           SHA: "${{env.parentSHA}}"
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const script = require('./scripts/delete-runs.js')
             await script({github, context, core})
