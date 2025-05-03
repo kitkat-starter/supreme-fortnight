@@ -3,6 +3,10 @@
     "username": "${TKE_USERNAME}",
     "password": "${TKE_PASSWORD}"
   },
+  "ghcr.io": {
+    "username": "${GHCR_USERNAME}",
+    "password": "${GHCR_PASSWORD}"
+  },
   "registry.cn-shenzhen.aliyuncs.com": {
     "username": "${ACR_USERNAME}",
     "password": "${ACR_PASSWORD}"
