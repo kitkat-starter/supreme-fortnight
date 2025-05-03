@@ -8,7 +8,7 @@ WORKDIR $HOME
 
 ######### Customize Container Here ###########
 
-RUN wget https://download.bell-sw.com/java/21.0.6+10/bellsoft-jdk21.0.6+10-linux-amd64-full.deb -O jdk.deb && \
+RUN wget https://download.bell-sw.com/java/21.0.7+9/bellsoft-jdk21.0.7+9-linux-amd64-full.deb -O jdk.deb && \
     dpkg -i jdk.deb && \
     rm jdk.deb
 RUN wget https://hub.scgit.top/BiglySoftware/BiglyBT/releases/download/v3.8.0.2/GitHub_BiglyBT_unix.tar.gz -O bbt.tar.gz && \
