@@ -30,12 +30,13 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: 构建 builds-pter-java-adoptium-16 镜像
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: builds/pter-java
           file: builds/pter-java/Dockerfile-adoptium-16
           push: true
           tags: ghcr.io/kitkat-starter/pter-java:adoptium-16
+          output: type=image,push=true,compression=zstd,compression-level=3
           cache-from: type=gha
           cache-to: type=gha,mode=max
   sync-back:

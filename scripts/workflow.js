@@ -52,12 +52,13 @@ const buildJob = {
     },
     {
       name: "构建 镜像",
-      uses: "docker/build-push-action@v5",
+      uses: "docker/build-push-action@v6",
       with: {
         context: "",
         file: "",
         push: true,
         tags: "",
+        output: "type=image,push=true,compression=zstd,compression-level=3",
         "cache-from": "type=gha",
         "cache-to": "type=gha,mode=max",
       },
