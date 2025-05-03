@@ -58,7 +58,7 @@ const buildJob = {
         file: "",
         push: true,
         tags: "",
-        output: "type=image,push=true,compression=zstd,compression-level=3",
+        outputs: "type=image,push=true,compression=zstd,compression-level=3",
         "cache-from": "type=gha",
         "cache-to": "type=gha,mode=max",
       },

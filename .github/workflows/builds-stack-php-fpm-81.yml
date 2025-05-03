@@ -37,7 +37,7 @@ jobs:
           file: builds/stack/php-fpm/Dockerfile-php-fpm-81
           push: true
           tags: ghcr.io/kitkat-starter/stack:php-fpm-81
-          output: type=image,push=true,compression=zstd,compression-level=3
+          outputs: type=image,push=true,compression=zstd,compression-level=3
           cache-from: type=gha
           cache-to: type=gha,mode=max
   sync-back:

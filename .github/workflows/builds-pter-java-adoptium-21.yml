@@ -36,7 +36,7 @@ jobs:
           file: builds/pter-java/Dockerfile-adoptium-21
           push: true
           tags: ghcr.io/kitkat-starter/pter-java:adoptium-21
-          output: type=image,push=true,compression=zstd,compression-level=3
+          outputs: type=image,push=true,compression=zstd,compression-level=3
           cache-from: type=gha
           cache-to: type=gha,mode=max
   sync-back:
