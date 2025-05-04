@@ -13,6 +13,9 @@ const workflowMain = {
     ],
     workflow_dispatch: {},
   },
+  permissions: {
+    packages: "write",
+  },
   env: {
     TKE_USERNAME: "${{ secrets.TKE_USERNAME }}",
     TKE_PASSWORD: "${{ secrets.TKE_PASSWORD }}",

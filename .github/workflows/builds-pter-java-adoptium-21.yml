@@ -8,6 +8,8 @@ on:
   schedule:
     - cron: 30 9 * * 2
   workflow_dispatch: {}
+permissions:
+  packages: write
 env:
   TKE_USERNAME: ${{ secrets.TKE_USERNAME }}
   TKE_PASSWORD: ${{ secrets.TKE_PASSWORD }}
