@@ -3,7 +3,8 @@ ghcr.io/pterodactyl/yolks: ccr.ccs.tencentyun.com/pterodactyl/yolks
 ghcr.io/pterodactyl/games: ccr.ccs.tencentyun.com/pterodactyl/games
 ghcr.io/pterodactyl/installers: ccr.ccs.tencentyun.com/pterodactyl/installers
 # 其中一位作者自己的
-ghcr.io/parkervcp/yolks: ccr.ccs.tencentyun.com/pterodactyl/yolks-parkervcp
+# 已经达到腾讯云上限,不同步此仓库
+# ghcr.io/parkervcp/yolks: ccr.ccs.tencentyun.com/pterodactyl/yolks-parkervcp
 ghcr.io/parkervcp/games: ccr.ccs.tencentyun.com/pterodactyl/games-parkervcp
 ghcr.io/parkervcp/installers: ccr.ccs.tencentyun.com/pterodactyl/installers-parkervcp
 ghcr.io/parkervcp/steamcmd: ccr.ccs.tencentyun.com/pterodactyl/steamcmd-parkervcp
