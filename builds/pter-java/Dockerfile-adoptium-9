@@ -3,7 +3,7 @@
 # Environment: Adoptium-8
 # Minimum Panel Version: 0.6.0
 # ----------------------------------
-FROM eclipse-temurin:9
+FROM openjdk:9
 
 LABEL org.opencontainers.image.authors="noreplay@noreply.org"
 LABEL org.opencontainers.image.vendor="KKP"
