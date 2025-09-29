@@ -1,0 +1,55 @@
+name: 构建 builds-pter-java-adoptium-25 镜像
+on:
+  push:
+    paths:
+      - builds/pter-java/Dockerfile-adoptium-25
+      - builds/pter-java/entrypoint.sh
+      - .github/workflows/builds-pter-java-adoptium-25.yml
+  schedule:
+    - cron: 30 9 * * 2
+  workflow_dispatch: {}
+permissions:
+  packages: write
+env:
+  TKE_USERNAME: ${{ secrets.TKE_USERNAME }}
+  TKE_PASSWORD: ${{ secrets.TKE_PASSWORD }}
+  HUB_USERNAME: ${{ secrets.HUB_USERNAME }}
+  HUB_PASSWORD: ${{ secrets.HUB_PASSWORD }}
+  GHCR_USERNAME: ${{ github.actor }}
+  GHCR_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+jobs:
+  build-builds-pter-java-adoptium-25:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+      - name: 设定 Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: 登陆到 DockerHub
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: 构建 builds-pter-java-adoptium-25 镜像
+        uses: docker/build-push-action@v6
+        with:
+          context: builds/pter-java
+          file: builds/pter-java/Dockerfile-adoptium-25
+          push: true
+          tags: ghcr.io/kitkat-starter/pter-java:adoptium-25
+          outputs: type=image,push=true,compression=zstd,compression-level=3
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+  sync-back:
+    runs-on: ubuntu-latest
+    needs:
+      - build-builds-pter-java-adoptium-25
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+      - name: 准备同步工具
+        run: bash ./sync-tool/tools.sh
+      - name: 搬回国内
+        run: ./image-syncer -r 5 --proc 16 --auth ./sync-tool/auth.json --images
+          builds/pter-java/adoptium-25.yml
