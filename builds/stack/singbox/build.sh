@@ -4,7 +4,7 @@ set -x
 mkdir -p /src
 cd /src
 # 克隆源码
-git clone -b building https://github.com/PuerNya/sing-box
+git clone -b building https://github.com/chisaato/sing-box
 # 现在进入源码目录
 cd sing-box
 git remote add sekai https://github.com/SagerNet/sing-box.git
