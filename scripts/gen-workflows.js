@@ -49,8 +49,6 @@ function genBuildJob(workflowConfig) {
       step.with.file = workflowConfig.dockerfilePath;
       step.with.tags = workflowConfig.pushTarget;
       step.name = workflowConfig.workflowName;
-    }
-    if (step.uses == "docker/setup-buildx-action@v3") {
       // 如果 extraConfigPath 存在
       if (fs.existsSync(workflowConfig.extraConfigPath)) {
         console.log(
@@ -62,10 +60,6 @@ function genBuildJob(workflowConfig) {
         );
         // 然后把里面的 key 直接赋给 step
         Object.keys(extraConfig).forEach((key) => {
-          // 如果没有  with 字段则加一个
-          if (!step["with"]) {
-            step["with"] = {};
-          }
           step.with[key] = extraConfig[key];
         });
       }
