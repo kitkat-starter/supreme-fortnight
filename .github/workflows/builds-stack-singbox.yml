@@ -45,7 +45,6 @@ jobs:
           outputs: type=image,push=true,compression=zstd,compression-level=3
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          platform: linux/amd64,linux/arm64
   sync-back:
     runs-on: ubuntu-latest
     needs:
