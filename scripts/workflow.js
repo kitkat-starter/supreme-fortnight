@@ -39,6 +39,10 @@ const buildJob = {
       uses: "actions/checkout@v4",
     },
     {
+      name: "设置 QEMU",
+      uses: "docker/setup-qemu-action@v3",
+    },
+    {
       name: "设定 Docker Buildx",
       uses: "docker/setup-buildx-action@v3",
     },

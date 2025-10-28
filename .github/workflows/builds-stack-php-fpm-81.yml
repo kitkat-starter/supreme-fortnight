@@ -24,6 +24,8 @@ jobs:
     steps:
       - name: 检出代码
         uses: actions/checkout@v4
+      - name: 设置 QEMU
+        uses: docker/setup-qemu-action@v3
       - name: 设定 Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: 登陆到 DockerHub

@@ -36,7 +36,8 @@ function genWorkflowMain(config, workflowConfig) {
   return workflowMain;
 }
 function genBuildJob(workflowConfig) {
-  let buildJob = Object.assign({}, workflowData.buildJob);
+  // 使用深拷贝确保独立性
+  let buildJob = JSON.parse(JSON.stringify(workflowData.buildJob));
   // console.log(workflowData.buildJob);
   // console.log(buildJob);
   // 我们要修改一下构建信息
@@ -49,7 +50,28 @@ function genBuildJob(workflowConfig) {
       step.with.tags = workflowConfig.pushTarget;
       step.name = workflowConfig.workflowName;
     }
+    if (step.uses == "docker/setup-buildx-action@v3") {
+      // 如果 extraConfigPath 存在
+      if (fs.existsSync(workflowConfig.extraConfigPath)) {
+        console.log(
+          `找到了 extraConfigPath,在 ${workflowConfig.extraConfigPath}`,
+        );
+        // 读取这个 YAML
+        let extraConfig = YAML.parse(
+          fs.readFileSync(workflowConfig.extraConfigPath).toString(),
+        );
+        // 然后把里面的 key 直接赋给 step
+        Object.keys(extraConfig).forEach((key) => {
+          // 如果没有  with 字段则加一个
+          if (!step["with"]) {
+            step["with"] = {};
+          }
+          step.with[key] = extraConfig[key];
+        });
+      }
+    }
   });
+  console.log(buildJob.steps);
   return buildJob;
 }
 function genSyncJob(workflowConfig) {
@@ -122,6 +144,7 @@ configJson.paths.forEach((config) => {
       let pushTarget = `${registry}:${tag}`;
       let dockerfilePath = `${context + path.sep + filename}`;
       let entrypointPath = `${context + path.sep}entrypoint.sh`;
+      let extraConfigPath = `${context}/config.yml`;
       let workflowName = `构建 ${taskId}-${tag} 镜像`;
       let workflowFileName = `.github/workflows/${taskId}-${tag}.yml`;
       let buildJobName = `build-${taskId}-${tag}`;
@@ -144,7 +167,9 @@ configJson.paths.forEach((config) => {
         syncConfigFile: syncConfigFile,
         schedule: config.schedule,
         entrypointPath: entrypointPath,
+        extraConfigPath: extraConfigPath,
       };
+      // console.log(workflowConfig);
       // 制作同步配置文件
       // 左边是 registry:tag
       // 右边是 mirror:tag
