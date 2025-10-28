@@ -11,7 +11,7 @@ WORKDIR $HOME
 RUN wget https://download.bell-sw.com/java/21.0.9+11/bellsoft-jdk21.0.9+11-linux-amd64-full.deb -O jdk.deb && \
     dpkg -i jdk.deb && \
     rm jdk.deb
-RUN wget https://github.com/BiglySoftware/BiglyBT/releases/download/v3.8.0.2/Github_BiglyBT_unix.tar.gz-O bbt.tar.gz && \
+RUN wget https://github.com/BiglySoftware/BiglyBT/releases/download/v3.8.0.2/Github_BiglyBT_unix.tar.gz -O bbt.tar.gz && \
     tar -xvf bbt.tar.gz && \
     rm bbt.tar.gz && \
     cp biglybt/biglybt.desktop $HOME/Desktop/ && \
