@@ -71,7 +71,7 @@ function genBuildJob(workflowConfig) {
       }
     }
   });
-  console.log(buildJob.steps);
+  // console.log(buildJob.steps);
   return buildJob;
 }
 function genSyncJob(workflowConfig) {
