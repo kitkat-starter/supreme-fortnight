@@ -7,13 +7,16 @@ RUN apk update && \
     apk add git ca-certificates make bash wget curl
 RUN mkdir -p /scripts
 COPY build.sh /scripts/build.sh
+COPY clone.sh /scripts/clone.sh
+WORKDIR /src
+RUN bash /scripts/build.sh
 
 # 第一阶段：准备源码和依赖（利用缓存）
-RUN mkdir -p /src && cd /src && \
-    git clone -b building https://github.com/chisaato/sing-box && \
-    cd sing-box && \
-    git remote add sekai https://github.com/SagerNet/sing-box.git && \
-    git fetch --tags sekai
+# RUN mkdir -p /src && cd /src && \
+#     git clone -b building https://github.com/chisaato/sing-box && \
+#     cd sing-box && \
+#     git remote add sekai https://github.com/SagerNet/sing-box.git && \
+#     git fetch --tags sekai
 
 # 使用 BuildKit 缓存挂载（需要 BuildKit 启用）
 # 下载依赖（可缓存）
