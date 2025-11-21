@@ -108,3 +108,8 @@ wget -q --show-progress "https://github.com/MetaCubeX/metacubexd/releases/downlo
 mkdir -p /yacd
 tar -xzf compressed-dist.tgz -C /yacd
 echo "metacubexd 下载并解压完成"
+
+# 下载 geoip
+git clone https://github.com/v2fly/geoip
+cd geoip
+CGO_ENABLED=0 go build -o geoip
