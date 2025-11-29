@@ -1,17 +1,17 @@
 {
-    "input": [
-        {
-            "type": "v2rayGeoIPDat",
-            "action": "add",
-            "args": {
-                "uri": "./geoip.dat"
-            }
-        }
-    ],
-    "output": [
-        {
-            "type": "text",
-            "action": "output"
-        }
-    ]
+  "input": [
+    {
+      "type": "v2rayGeoIPDat",
+      "action": "add",
+      "args": {
+        "uri": "./geoip.dat"
+      }
+    }
+  ],
+  "output": [
+    {
+      "type": "text",
+      "action": "output"
+    }
+  ]
 }
