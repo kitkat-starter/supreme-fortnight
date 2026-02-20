@@ -4,4 +4,4 @@ teddysun/kms:latest: ccr.ccs.tencentyun.com/karasu/sync:kms
 # Bitwarden
 vaultwarden/server:latest: ccr.ccs.tencentyun.com/karasu/sync:vaultwarden
 # 容器自动升级工具
-containrrr/watchtower:latest: ccr.ccs.tencentyun.com/karasu/sync:watchtower
+# containrrr/watchtower:latest: ccr.ccs.tencentyun.com/karasu/sync:watchtower

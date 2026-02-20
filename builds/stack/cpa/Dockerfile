@@ -1,0 +1,32 @@
+FROM golang:1.24-alpine AS builder
+
+WORKDIR /app
+
+# 安装基础工具
+RUN apk update && apk add --no-cache git gcc libc-dev
+# 克隆
+RUN git clone https://github.com/router-for-me/CLIProxyAPI
+
+WORKDIR /app/CLIProxyAPI
+
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w -X 'main.Version=${VERSION}' -X 'main.Commit=${COMMIT}' -X 'main.BuildDate=${BUILD_DATE}'" -o ./CLIProxyAPI ./cmd/server/
+
+FROM alpine:3.22.0
+
+RUN apk add --no-cache tzdata
+
+RUN mkdir /CLIProxyAPI
+
+COPY --from=builder ./app/CLIProxyAPI /CLIProxyAPI/CLIProxyAPI
+
+COPY config.example.yaml /CLIProxyAPI/config.example.yaml
+
+WORKDIR /CLIProxyAPI
+
+EXPOSE 8317
+
+ENV TZ=Asia/Shanghai
+
+RUN cp /usr/share/zoneinfo/${TZ} /etc/localtime && echo "${TZ}" > /etc/timezone
+
+CMD ["./CLIProxyAPI"]

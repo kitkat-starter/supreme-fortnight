@@ -1,14 +1,14 @@
-FROM kasmweb/core-ubuntu-noble:1.16.0-rolling-daily
+FROM kasmweb/core-ubuntu-noble:1.18.0-rolling-daily
 USER root
 
-ENV HOME /home/kasm-default-profile
-ENV STARTUPDIR /dockerstartup
-ENV INST_SCRIPTS $STARTUPDIR/install
+ENV HOME=/home/kasm-default-profile
+ENV STARTUPDIR=/dockerstartup
+ENV INST_SCRIPTS=$STARTUPDIR/install
 WORKDIR $HOME
 
 ######### Customize Container Here ###########
 
-RUN wget https://download.bell-sw.com/java/21.0.9+11/bellsoft-jdk21.0.9+11-linux-amd64-full.deb -O jdk.deb && \
+RUN wget https://download.bell-sw.com/java/21.0.10+10/bellsoft-jdk21.0.10+10-linux-amd64-full.deb -O jdk.deb && \
     dpkg -i jdk.deb && \
     rm jdk.deb
 RUN wget https://github.com/BiglySoftware/BiglyBT/releases/download/v4.0.0.0/Github_BiglyBT_unix.tar.gz -O bbt.tar.gz && \
@@ -30,7 +30,7 @@ RUN echo "/usr/bin/desktop_ready && /usr/local/biglybt/biglybt &" > $STARTUPDIR/
 RUN chown 1000:0 $HOME
 RUN $STARTUPDIR/set_user_permission.sh $HOME
 
-ENV HOME /home/kasm-user
+ENV HOME=/home/kasm-user
 WORKDIR $HOME
 RUN mkdir -p $HOME && chown -R 1000:0 $HOME
 
