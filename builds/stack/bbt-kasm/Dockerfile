@@ -11,18 +11,19 @@ WORKDIR $HOME
 RUN wget https://download.bell-sw.com/java/21.0.10+10/bellsoft-jdk21.0.10+10-linux-amd64-full.deb -O jdk.deb && \
     dpkg -i jdk.deb && \
     rm jdk.deb
-RUN wget https://github.com/BiglySoftware/BiglyBT/releases/download/v4.0.0.0/Github_BiglyBT_unix.tar.gz -O bbt.tar.gz && \
+RUN apt-get update && apt-get install -y --no-install-recommends rsync && \
+    rm -rf /var/lib/apt/lists/*
+
+ARG BBT_VERSION=v4.0.0.0
+RUN wget https://github.com/BiglySoftware/BiglyBT/releases/download/${BBT_VERSION}/Github_BiglyBT_unix.tar.gz -O bbt.tar.gz && \
     tar -xvf bbt.tar.gz && \
     rm bbt.tar.gz && \
-    cp biglybt/biglybt.desktop $HOME/Desktop/ && \
-    mv biglybt /usr/local/ && \
-    sed -i "s#Exec=biglybt#Exec=/usr/local/biglybt/biglybt#g" $HOME/Desktop/biglybt.desktop && \
-    chmod +x $HOME/Desktop/biglybt.desktop && \
-    chown 1000:1000 $HOME/Desktop/biglybt.desktop
+    mkdir -p /opt/biglybt-dist && \
+    mv biglybt /opt/biglybt-dist/biglybt && \
+    echo "${BBT_VERSION}" > /opt/biglybt-dist/VERSION
 
-
-RUN echo "/usr/bin/desktop_ready && /usr/local/biglybt/biglybt &" > $STARTUPDIR/custom_startup.sh \
-    && chmod +x $STARTUPDIR/custom_startup.sh
+COPY custom_startup.sh $STARTUPDIR/custom_startup.sh
+RUN chmod +x $STARTUPDIR/custom_startup.sh
 
 
 ######### End Customizations ###########
