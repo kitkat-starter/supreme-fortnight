@@ -5,3 +5,5 @@ teddysun/kms:latest: ccr.ccs.tencentyun.com/karasu/sync:kms
 vaultwarden/server:latest: ccr.ccs.tencentyun.com/karasu/sync:vaultwarden
 # 容器自动升级工具
 # containrrr/watchtower:latest: ccr.ccs.tencentyun.com/karasu/sync:watchtower
+# 自己写的加速 Pull 工具
+ghcr.io/chisaato/oci-puller:main: ccr.ccs.tencentyun.com/karasu/stck:oci-puller
