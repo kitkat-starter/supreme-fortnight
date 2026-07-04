@@ -36,19 +36,19 @@ const buildJob = {
   steps: [
     {
       name: "检出代码",
-      uses: "actions/checkout@v4",
+      uses: "actions/checkout@v7",
     },
     {
       name: "设置 QEMU",
-      uses: "docker/setup-qemu-action@v3",
+      uses: "docker/setup-qemu-action@v4",
     },
     {
       name: "设定 Docker Buildx",
-      uses: "docker/setup-buildx-action@v3",
+      uses: "docker/setup-buildx-action@v4",
     },
     {
       name: "登陆到 DockerHub",
-      uses: "docker/login-action@v3",
+      uses: "docker/login-action@v4",
       with: {
         registry: "ghcr.io",
         // username: "${{ secrets.HUB_USERNAME }}",
@@ -59,7 +59,7 @@ const buildJob = {
     },
     {
       name: "构建 镜像",
-      uses: "docker/build-push-action@v6",
+      uses: "docker/build-push-action@v7",
       with: {
         context: "",
         file: "",
@@ -78,7 +78,7 @@ const syncJob = {
   steps: [
     {
       name: "检出代码",
-      uses: "actions/checkout@v4",
+      uses: "actions/checkout@v7",
     },
     {
       name: "准备同步工具",
