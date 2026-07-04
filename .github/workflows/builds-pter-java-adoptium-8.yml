@@ -33,13 +33,13 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: 构建 镜像
+      - name: 构建 builds-pter-java-adoptium-8 镜像
         uses: docker/build-push-action@v7
         with:
-          context: ""
-          file: ""
+          context: builds/pter-java
+          file: builds/pter-java/Dockerfile-adoptium-8
           push: true
-          tags: ""
+          tags: ghcr.io/kitkat-starter/pter-java:adoptium-8
           outputs: type=image,push=true,compression=zstd,compression-level=3
           cache-from: type=gha
           cache-to: type=gha,mode=max

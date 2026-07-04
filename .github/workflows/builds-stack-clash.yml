@@ -33,16 +33,17 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: 构建 镜像
+      - name: 构建 builds-stack-clash 镜像
         uses: docker/build-push-action@v7
         with:
-          context: ""
-          file: ""
+          context: builds/stack/clash
+          file: builds/stack/clash/Dockerfile
           push: true
-          tags: ""
+          tags: ghcr.io/kitkat-starter/stack:clash
           outputs: type=image,push=true,compression=zstd,compression-level=3
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          platforms: linux/amd64,linux/arm64
   sync-back:
     runs-on: ubuntu-latest
     needs:
