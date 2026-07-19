@@ -14,7 +14,7 @@ RUN wget https://download.bell-sw.com/java/21.0.10+10/bellsoft-jdk21.0.10+10-lin
 RUN apt-get update && apt-get install -y --no-install-recommends rsync && \
     rm -rf /var/lib/apt/lists/*
 
-ARG BBT_VERSION=v4.0.0.0
+ARG BBT_VERSION=v4.1.0.0
 RUN wget https://github.com/BiglySoftware/BiglyBT/releases/download/${BBT_VERSION}/Github_BiglyBT_unix.tar.gz -O bbt.tar.gz && \
     tar -xvf bbt.tar.gz && \
     rm bbt.tar.gz && \
