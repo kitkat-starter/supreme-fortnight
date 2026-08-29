@@ -5,4 +5,4 @@ RUN apt-get update && \
     apt-get purge -y --auto-remove && \
     rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT ["/usr/sbin/softflowd"]
+ENTRYPOINT ["/usr/sbin/softflowd", "-D"]
