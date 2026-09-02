@@ -24,7 +24,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 检出代码
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: 准备同步工具
         run: bash ./sync-tool/tools.sh
       - name: 同步 p37 镜像
@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 检出代码
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
       - name: 准备同步工具
         run: bash ./sync-tool/tools.sh
       - name: 同步其他镜像
