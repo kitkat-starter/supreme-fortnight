@@ -1,0 +1,43 @@
+name: cleanup-ghcr
+on:
+  schedule:
+    # 每日清理,保持与旧 delete-untagged 相同的节奏
+    # 注意: ghcr manifest 缓存 7 天逐出,至少每 7 天要跑一次
+    - cron: "5 4 * * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "只打印将删除的内容,不实际删除"
+        type: boolean
+        default: false
+# 显式列出要清理的包(org 下当前仅此两个)
+# 注意: 新增包族时需要手动更新此列表
+concurrency:
+  group: cleanup-ghcr
+  cancel-in-progress: false
+permissions:
+  packages: write
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      # 规则 1: 删除超过 14 天的 untagged 版本(替换旧 delete-untagged.js)
+      - name: 清理 14 天前的 untagged 镜像
+        uses: step-security/ghcr-cleanup-action@v1
+        with:
+          token: ${{ github.token }}
+          owner: ${{ github.repository_owner }}
+          packages: "stack,pter-java"
+          delete-untagged: true
+          older-than: "14 days"
+          dry-run: ${{ inputs.dry_run == true }}
+      # 规则 2: 删除超过 30 天的 tagged 版本(替换旧 delete-old.js)
+      - name: 清理 30 天前的 tagged 镜像
+        uses: step-security/ghcr-cleanup-action@v1
+        with:
+          token: ${{ github.token }}
+          owner: ${{ github.repository_owner }}
+          packages: "stack,pter-java"
+          delete-tags: "**"
+          older-than: "30 days"
+          dry-run: ${{ inputs.dry_run == true }}

@@ -1,0 +1,40 @@
+name: cleanup-workflow-runs
+on:
+  schedule:
+    # 每月清理一次(保留策略见下,月度足够)
+    - cron: "0 0 1 * *"
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "只打印将删除的内容,不实际删除"
+        type: boolean
+        default: false
+      retain_days:
+        description: "保留天数,超过才可删除"
+        type: string
+        default: "30"
+      keep_minimum_runs:
+        description: "每个 workflow 至少保留的最近 run 数"
+        type: string
+        default: "6"
+concurrency:
+  group: cleanup-workflow-runs
+  cancel-in-progress: false
+permissions:
+  actions: write
+  contents: read
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      # 替换旧 delete-runs.js(原来是无保留全删)
+      # 现策略: 删除超过保留期的 runs,但每个 workflow 至少保留最近 N 个
+      # 手动触发可覆盖保留参数;定时触发使用默认值(30 天 / 6 个)
+      - name: 清理 workflow 运行记录
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          retain_days: ${{ inputs.retain_days || '30' }}
+          keep_minimum_runs: ${{ inputs.keep_minimum_runs || '6' }}
+          delete_workflow_by_state_pattern: "ALL"
+          delete_run_by_conclusion_pattern: "ALL"
+          dry_run: ${{ inputs.dry_run == true }}
