@@ -1,16 +1,17 @@
 {
   "dependencies": {
-    "@octokit/core": "^6.1.6",
-    "fs-extra": "^11.3.4",
+    "@octokit/rest": "^22.0.1",
     "klaw-sync": "^6.0.0",
     "prettier": "^3.8.3",
     "yaml": "^2.8.3"
   },
   "scripts": {
-    "build": "bun run clean && bun scripts/gen-workflows.js && prettier --write .",
-    "clean": "rm -f .github/workflows/*.yml"
+    "build": "bun run clean && bun scripts/gen.ts && prettier --write .",
+    "clean": "rm -f .github/workflows/*.yml",
+    "cli": "bun scripts/cli.ts"
   },
   "devDependencies": {
-    "@types/github-script": "github:actions/github-script"
+    "@types/bun": "^1.0.0",
+    "@types/klaw-sync": "^6.0.0"
   }
 }

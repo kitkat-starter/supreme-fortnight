@@ -54,12 +54,12 @@ scripts/
 
 子命令：
 
-| 子命令 | 功能 |
-|---|---|
-| `clean-untagged [--package <name>]` | 列出/删除 GHCR 无 tag 的 package versions |
-| `clean-runs [--older-than 30d] [--keep N]` | 清理 Actions workflow runs |
-| `clean-old [--older-than 30d]` | 按时间删除旧 package versions（含仍有 tag 的；语义与原 `delete-old.js` 对齐，时间字段以原脚本为准） |
-| `check-actions` | 扫描全仓 yml/ts 中 `uses:` 引用，按 action 聚合报告版本不一致 |
+| 子命令                                     | 功能                                                                                                |
+| ------------------------------------------ | --------------------------------------------------------------------------------------------------- |
+| `clean-untagged [--package <name>]`        | 列出/删除 GHCR 无 tag 的 package versions                                                           |
+| `clean-runs [--older-than 30d] [--keep N]` | 清理 Actions workflow runs                                                                          |
+| `clean-old [--older-than 30d]`             | 按时间删除旧 package versions（含仍有 tag 的；语义与原 `delete-old.js` 对齐，时间字段以原脚本为准） |
+| `check-actions`                            | 扫描全仓 yml/ts 中 `uses:` 引用，按 action 聚合报告版本不一致                                       |
 
 安全模型：
 
